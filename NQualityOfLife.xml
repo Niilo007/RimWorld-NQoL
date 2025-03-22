@@ -72,9 +72,10 @@
         <member name="F:NQualityOfLife.Animal.Dweller.DwellingFinder.DwellingCache">
             <summary>Cached dwellings for each map</summary>
         </member>
-        <member name="M:NQualityOfLife.Animal.Dweller.DwellingFinder.GoodDwellingSpots(Verse.Map,Verse.Pawn,Verse.AI.Group.Lord,System.Boolean)">
+        <member name="M:NQualityOfLife.Animal.Dweller.DwellingFinder.GoodDwellingSpots(Verse.Map,Verse.Pawn,Verse.AI.Group.Lord,System.Boolean,System.Boolean)">
             <summary>Not null</summary>
             <param name="map"></param><param name="pawn">Get the valid dwellings for this pawn</param><param name="pawnLord"></param><param name="debug"></param>
+            <param name="isAsyncOperation"></param>
             <returns>A list of valid dwellings for the pawn, if pawn is not given, will return all valid dwellings of all types. - not null</returns>
         </member>
         <member name="M:NQualityOfLife.Animal.Dweller.Jobs.TryMakeHaulingCorpseToDwellingJob(Verse.Pawn,Verse.IntVec3,Verse.Map,Verse.ThingDef)">
@@ -237,9 +238,9 @@
             <param name="tooltip3"></param><param name="tooltip4"></param>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.Listing_Standard_Extensions.LabelLargeCentered(System.String,System.Boolean)">
-            <summary>Draw a large label centered</summary>
-            <param name="labelTranslated"></param>
-            <param name="debug"></param>
+            <summary>Draw a large label centered with the given (translated) text.</summary>
+            <param name="labelTranslated">The translated text to draw.</param>
+            <param name="debug">Draw debug rects</param>
             <returns>The rect that contains the text.</returns>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.Listing_Standard_Extensions.LabelCentered(System.String,System.String,System.Boolean)">
@@ -263,7 +264,7 @@
             <returns>A List of 'Profile.Data_Key' strings</returns>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.ExtractKeys``1(System.Collections.Generic.Dictionary{System.String,``0})">
-            <summary>Extracts the actual values and keys from a list of setting keys.</summary>
+            <summary>Extracts the actual values and keys from a list of setting keys. (Input list format: 'Profile.DataName_Key')</summary>
             <typeparam name="T"></typeparam>
             <param name="keyValuePairs"></param>
             <returns>A dictionary of the keys and values, with Profile. and _Key removed from the keys</returns>
@@ -297,7 +298,7 @@
             <returns>The defName of the def, or equivalent</returns>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.ForCurrentProfile``1(System.Collections.Generic.Dictionary{System.String,``0})">
-            <summary>Filters out the keys to get only the keys for the current profile</summary>
+            <summary>Filters out the keys to get only the keys for the current profile (input strings foramt expected: 'Profile.DataName_Key')</summary>
             <typeparam name="T"></typeparam>
             <param name="keysForAllProfiles"></param>
             <returns>All the raw keys for the current profile in the: 'Profile.Thing_Key' format</returns>
@@ -308,6 +309,13 @@
             <param name="keysForAllProfiles"></param>
             <param name="profile"></param>
             <returns>All the raw keys for 'profile' in the: 'Profile.Thing_Key' format</returns>
+        </member>
+        <member name="M:NQualityOfLife.Settings.Utils_.ExtractDefs``2(System.Collections.Generic.Dictionary{System.String,``1})">
+            <summary>Expected input is a list of defNames</summary>
+            <typeparam name="D"></typeparam>
+            <typeparam name="T"></typeparam>
+            <param name="keys"></param>
+            <returns></returns>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.ExtractDefs``1(System.Collections.Generic.List{System.String})">
             <summary>Extract the Defs from a list of 'defName's</summary>
@@ -323,7 +331,7 @@
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.GetSettingValue_Int(System.String,System.Nullable{System.Int32},System.Int32)">
             <summary>Gets the saved int value</summary>
-            <param name="settingKey">The unique key of the setting data</param>
+            <param name="settingKey">The unique key of the setting data - Should not have the profile prefix!</param>
             <param name="directInt">The int field</param>
             <param name="fallback">Return this value if the setting data is not found</param>
             <returns>The saved int value or fallback if not found</returns>
@@ -342,18 +350,22 @@
             <param name="newValue">Set this value as the new value</param>
             <param name="profile"></param>
         </member>
-        <member name="M:NQualityOfLife.Settings.Utils_.GetSettingValue_String(System.String,System.String,System.String)">
+        <member name="M:NQualityOfLife.Settings.Utils_.GetSettingValue_String(System.String,System.String,System.String,System.String,System.String[])">
             <summary>Gets the saved string value</summary>
             <param name="settingKey">The unique key of the setting data</param>
             <param name="directString">The string field</param>
             <param name="fallback">Return this value if the setting data is not found</param>
+            <param name="profile"></param>
+            <param name="migrateFromLegacyKeys"></param>
             <returns>The saved string value or fallback if not found</returns>
         </member>
-        <member name="M:NQualityOfLife.Settings.Utils_.GetSettingEnabled(System.String,System.Nullable{System.Boolean},System.Boolean)">
+        <member name="M:NQualityOfLife.Settings.Utils_.GetSettingEnabled(System.String,System.Nullable{System.Boolean},System.Boolean,System.String,System.String[])">
             <summary>Gets the saved bool value</summary>
             <param name="settingKey">The unique key of the setting data</param>
             <param name="directBool">The bool field</param>
             <param name="fallback">Return this value if the setting data is not found</param>
+            <param name="profile"></param>
+            <param name="migrateFromLegacyKeys">Copy the setting from a legacy key if found.</param>
             <returns>The saved bool value or fallback if not found</returns>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.LabelLarge(UnityEngine.Rect,System.String,System.Boolean,System.Boolean,System.Boolean)">
@@ -394,6 +406,26 @@
             <param name="windowStack">Optional</param>
             <returns>True when this button is pressed (not the confirmation popup button)</returns>
         </member>
+        <member name="M:NQualityOfLife.Settings.Utils_.Button_Confirmation_HyperLink(UnityEngine.Rect,System.String,System.String,System.String,System.String,Verse.WindowStack)">
+            <summary>Draws a button that opens a pop up confirmation window</summary>
+            <param name="rect"></param>
+            <param name="labelKey"></param>
+            <param name="tooltipKey"></param>
+            <param name="confirmationLabelKey"></param>
+            <param name="hyperLink"></param>
+            <param name="windowStack"></param>
+            <returns>True when clicking the button</returns>
+        </member>
+        <member name="M:NQualityOfLife.Settings.Utils_.Hyperlink(UnityEngine.Rect,System.String,System.Boolean,System.String,System.Boolean,System.Boolean)">
+            <summary></summary>
+            <param name="rect"></param>
+            <param name="link"></param>
+            <param name="copyToClipboardOnClick"></param>
+            <param name="customToolTipKey"></param>
+            <param name="centered"></param>
+            <param name="debug"></param>
+            <returns>The rect containing the hyperlink text</returns>
+        </member>
         <member name="M:NQualityOfLife.Settings.Utils_.DrawTabs(UnityEngine.Rect,System.Int32@,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,Verse.SoundDef,Verse.SoundDef,Verse.SoundDef,System.Single)">
             <summary>Draw 4 tab buttons at the top of the given Rect</summary>
             <param name="parentRect">Draw at the top of this</param>
@@ -423,6 +455,19 @@
             <param name="rejectSound">Play this sound if selecting already open tab</param>
             <param name="hoverSound">Play this sound on mouse hover</param>
             <param name="buttonHeightPixels"></param>
+        </member>
+        <member name="M:NQualityOfLife.Settings.Utils_.DrawTabButton(UnityEngine.Rect,System.Int32,System.String,System.Int32@,Verse.SoundDef,Verse.SoundDef,Verse.SoundDef,System.String,System.Boolean)">
+            <summary></summary>
+            <param name="tabButtonRect"></param>
+            <param name="thisTabId"></param>
+            <param name="label"></param>
+            <param name="currentSelectedTabId"></param>
+            <param name="selectSound"></param>
+            <param name="rejectSound"></param>
+            <param name="hoverSound"></param>
+            <param name="tooltipKey"></param>
+            <param name="debug"></param>
+            <returns>The LabelLarge Rect inside the button</returns>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.DrawColumns(UnityEngine.Rect,UnityEngine.Rect@,UnityEngine.Rect@,System.Int32,System.Single)">
             <summary>Draw 2 vertical column Rects inside a Rect with grey border and no fill color</summary>
@@ -836,9 +881,6 @@
         <member name="T:NQualityOfLife.Settings.NQualityOfLife_Mod">
             <summary>My mod class</summary>
         </member>
-        <member name="F:NQualityOfLife.Settings.NQualityOfLife_Mod.SettingsData">
-            <summary>My mod settings</summary>
-        </member>
         <member name="M:NQualityOfLife.Settings.NQualityOfLife_Mod.#ctor(Verse.ModContentPack)">
             <summary>My mod content pack</summary>
         </member>
@@ -891,6 +933,9 @@
         </member>
         <member name="F:NQualityOfLife.Settings.NQualityOfLife_Settings.GlobalMessageFilterTextProfiles">
             <summary>Keys are the profiles, value is the text data</summary>
+        </member>
+        <member name="F:NQualityOfLife.Settings.NQualityOfLife_Settings.diseaseEventFilterData">
+            <summary>Data keys saved in the Profile.Key_Key format</summary>
         </member>
         <member name="M:NQualityOfLife.Comps.BuildingComp.Notify_Killed(Verse.Map,System.Nullable{Verse.DamageInfo})">
             <summary>N/A</summary><param name="prevMap">N/A</param><param name="dInfo">N/A</param>
@@ -1058,12 +1103,36 @@
             <param name="disease"></param>
             <returns></returns>
         </member>
+        <member name="M:NQualityOfLife.Medical.Utils_Medical.HasChildParts(Verse.BodyPartRecord)">
+            <summary></summary>
+            <param name="part"></param>
+            <returns>True if the given part has child parts</returns>
+        </member>
+        <member name="M:NQualityOfLife.Medical.Utils_Medical.GetDirectChildParts(Verse.BodyPartRecord)">
+            <summary>Gets the child parts directly attached to this part</summary>
+            <param name="part">Get the child parts directly attached to this part</param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Medical.Utils_Medical.SeverityPerDay(Verse.Hediff)">
+            <summary>Gets the base severity per day for the hediff</summary>
+            <param name="hediff"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Medical.Utils_Medical.Hediffs(Verse.BodyPartRecord,Verse.Pawn)">
+            <summary>Gets all the hediffs affecting the given part on the given pawn</summary>
+            <param name="part"></param>
+            <param name="pawn"></param>
+            <returns>All the hediffs on the given body part of the pawn</returns>
+        </member>
         <member name="M:NQualityOfLife.Medical.Utils_Medical.Hediffs(Verse.BodyPartRecord,Verse.Pawn,System.Int32@)">
             <summary></summary>
             <param name="part"></param>
             <param name="pawn"></param>
             <param name="count"></param>
             <returns>Not null</returns>
+        </member>
+        <member name="F:NQualityOfLife.Medical.Surgery.SurgerySuccessInfo_Patch_1.report_Quality">
+            <summary>The details for the surgery fail letter</summary>
         </member>
         <member name="M:NQualityOfLife.Medical.Surgery.Utils_Surgery.CanEverFail(RimWorld.Recipe_Surgery)">
             <summary>Can this surgery ever fail?</summary>
@@ -1298,30 +1367,38 @@
         <member name="F:NQualityOfLife.HomeSystem.Thoughts.ThoughtDefOf.NQoL_JoyActivityInImpressiveLivingRoom">
             <summary>The thought given to pawns after playing in their own living room</summary>
         </member>
+        <member name="M:NQualityOfLife.Progression.NQoL_Research_Queue_Patch_1.GetNextFromQueue(System.Collections.Generic.List{Verse.ResearchProjectDef},System.Boolean)">
+            <summary></summary>
+            <param name="researchQueue"></param>
+            <param name="debugErrorOnFail"></param>
+            <returns>Null if nothing to start, or the project to try start from queue</returns>
+        </member>
         <member name="M:NQualityOfLife.Progression.NQoL_Research_Queue_Patch_1.TryToStartNextAvailableResearchFromQueue(System.Collections.Generic.List{Verse.ResearchProjectDef},System.Boolean)">
             <summary></summary>
             <param name="researchQueue"></param>
             <param name="errorOnFail"></param>
             <returns>True if research was started, false if not</returns>
         </member>
-        <member name="M:NQualityOfLife.Progression.Evaluate_Progression.DoProgression(System.Single,System.Single,RimWorld.TechLevel@,RimWorld.TechLevel@,System.Boolean)">
+        <member name="M:NQualityOfLife.Progression.Evaluate_Progression.DoProgression(NQualityOfLife.Ratio,NQualityOfLife.Ratio,System.Boolean,RimWorld.TechLevel@,RimWorld.TechLevel@,System.Boolean)">
             <summary>Calls all the methods needed to progress the tech level</summary>
-            <param name="fRatioNeeded">The ratio of completed research projects of a level needed to consider that level completed</param>
-            <param name="fRatioNeededForSkip">The ratio of tech needed to be completed in a tech level 2 tiers ahead to level up</param>
+            <param name="ratioNeeded">The ratio of completed research projects of a level needed to consider that level completed</param>
+            <param name="ratioNeededForSkip">The ratio of tech needed to be completed in a tech level 2 tiers ahead to level up</param>
+            <param name="allowRegression"></param>
             <param name="oldLevel"></param>
             <param name="newLevel"></param>
             <param name="suppressMessage">Suppress in game notification message about level progress</param>
             <returns>false if there was an issue</returns>
         </member>
-        <member name="M:NQualityOfLife.Progression.Evaluate_Progression.GetDesiredTechLevel(System.Single,System.Single)">
+        <member name="M:NQualityOfLife.Progression.Evaluate_Progression.GetDesiredTechLevel(NQualityOfLife.Ratio,NQualityOfLife.Ratio)">
             <summary>Calculate the tech level that the colony should have based on the given parameters</summary>
-            <param name="fRatioNeeded">The ratio of completed research projects of a level needed to consider that level completed</param>
-            <param name="fRatioNeededForSkip">The ratio of tech needed to be completed in a tech level 2 tiers ahead to level up</param>
+            <param name="ratioNeeded">The ratio of completed research projects of a level needed to consider that level completed</param>
+            <param name="ratioNeededForSkip">The ratio of tech needed to be completed in a tech level 2 tiers ahead to level up</param>
             <returns>Desired tech level</returns>
         </member>
-        <member name="M:NQualityOfLife.Progression.Evaluate_Progression.SetDesiredTechLevel(RimWorld.TechLevel,System.Boolean)">
+        <member name="M:NQualityOfLife.Progression.Evaluate_Progression.SetDesiredTechLevel(RimWorld.TechLevel,System.Boolean,System.Boolean)">
             <summary>Set the colony tech level to the given Int</summary>
             <param name="newTechLevel">The Int of the new tech level</param>
+            <param name="allowRegression"></param>
             <param name="suppressMessage">Suppress in game message notification</param>
             <returns>true if level changed, false if level was not changed</returns>
         </member>
@@ -1332,14 +1409,25 @@
             <summary>Will give the 'bad' color, will differ based on settings. Intended for color blind support etc...</summary>
         </member>
         <member name="M:NQualityOfLife.Utils.Colors.SetTransparency(UnityEngine.Color,NQualityOfLife.Ratio)">
-            <summary></summary>
+            <summary>1 is fully transparent (see trough) 0 is fully opaque</summary>
             <param name="color"></param>
             <param name="ratio">1 is fully transparent, 0 is opague</param>
             <returns></returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.Colors.HexToColor(System.String)">
+            <summary>Converts a hex code such as '#FF1144FF' into a UnityEngine.Color</summary><param name="color"></param><returns>UnityEngine.Color</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Colors.ColorToHex(UnityEngine.Color)">
+            <summary>Converts an UnityEngine.Color into a hex code such as '#FF1144FF'</summary><param name="color"></param><returns>A hex code such as '#FF1144FF'</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.Colors.HexToByte(System.String)">
             <summary>Input must be a string with a length of 2, such as 'F2' or '5F'</summary>
             <param name="hexCode">Must be 'FF', '0A', 'A2', '01', '00' etc</param>
+            <returns>byte of 0 - 255, for example 'FF' -> '255'</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Colors.HexToByte(System.ValueTuple{System.Char,System.Char})">
+            <summary>Converts the given 2 letter hex code to its byte value</summary>
+            <param name="hex">Must be 'FF', 'F0', '1A', '51', 'AB' etc</param>
             <returns>byte of 0 - 255, for example 'FF' -> '255'</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Colors.HexToByte(System.Char,System.Char)">
@@ -1347,6 +1435,15 @@
             <param name="bigger">Must be 'F', '0', 'A', '1', 'B' etc</param>
             <param name="smaller">Must be 'F', '0', 'A', '1', 'B' etc</param>
             <returns>byte of 0 - 255, for example 'FF' -> '255'</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Colors.RGBAToHex(System.ValueTuple{System.Byte,System.Byte,System.Byte,System.Byte})">
+            <summary></summary><param name="color"></param><returns>a hex code such as '#FF1144FF'</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Colors.RGBAToColor(System.ValueTuple{System.Byte,System.Byte,System.Byte,System.Byte})">
+            <summary>Converts RGBA values to a UnityEngine.Color</summary><param name="color"></param><returns>UnityEngine.Color</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Colors.RGBToColor(System.ValueTuple{System.Byte,System.Byte,System.Byte})">
+            <summary>Converts RGB values to a UnityEngine.Color</summary><param name="color"></param><returns>UnityEngine.Color</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Colors.HexToByte(System.Char,System.Byte)">
             <summary></summary>
@@ -1389,6 +1486,11 @@
             <param name="B"></param>
             <param name="A">Alpha (Transparency)</param>
             <returns>a hex code such as '#FF1144FF'</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Colors.Darken(System.String)">
+            <summary>Darkens a hex color code</summary>
+            <param name="color"></param>
+            <returns>Hex color code such as: '#FF9977'</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Colors.MutateColor(System.String,NQualityOfLife.Utils.Colors.MutatorMode)">
             <summary></summary>
@@ -1526,8 +1628,8 @@
         </member>
         <member name="M:NQualityOfLife.Utils.Mods.WarnAboutSusAssembly(System.Reflection.Assembly,Verse.Mod,Verse.ModMetaData,System.String)">
             <summary>Scan all the types in the given assembly for error supression etc...</summary>
-            <param name="assembly"></param>
-            <param name="fromMod"></param>
+            <param name="assembly">Assembly to scan</param>
+            <param name="fromMod">The mod that the assembly is from</param>
             <param name="modMetaData"></param>
             <param name="modPackageId"></param>
         </member>
@@ -1538,9 +1640,9 @@
             <param name="modPackageId"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.Mods.WarnAboutSusAssemblies(System.Reflection.Assembly[],Verse.Mod,Verse.ModMetaData,System.String)">
-            <summary>Scans the given asseblies for error supression or other things that are potentially concerning.</summary>
-            <param name="assemblies"></param>
-            <param name="fromMod"></param>
+            <summary>Scans the given assemblies for error supression or other things that are potentially concerning.</summary>
+            <param name="assemblies">Assemblies to scan</param>
+            <param name="fromMod">The mod that the assemblies are from</param>
             <param name="modMetaData"></param>
             <param name="modPackageId"></param>
         </member>
@@ -1559,6 +1661,18 @@
             <summary>Warn the user if the given mod is not updated for the current game version</summary>
             <param name="modMetaData"></param>
             <param name="modPackageId"></param>
+        </member>
+        <member name="F:NQualityOfLife.Utils.Mods.BiotechActive">
+            <summary>Is the Biotech DLC active?</summary>
+        </member>
+        <member name="F:NQualityOfLife.Utils.Mods.IdeologyActive">
+            <summary>Is the Ideology DLC active?</summary>
+        </member>
+        <member name="F:NQualityOfLife.Utils.Mods.RoyaltyActive">
+            <summary>Is the Royalty DLC active?</summary>
+        </member>
+        <member name="F:NQualityOfLife.Utils.Mods.AnomalyActive">
+            <summary>Is the Anomaly DLC active?</summary>
         </member>
         <member name="M:NQualityOfLife.Utils.IncidentUtils.Artillery.NuclearStrike(System.Int32,RimWorld.Planet.GlobalTargetInfo,System.Single)">
             <summary>Launch a rimatomics ICBM at the specified target</summary>
@@ -1688,6 +1802,20 @@
             <param name="value"></param><param name="otherValue"></param>
             <returns>The smaller of the 2 values</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.Math.Clamp(System.Byte,System.Byte,System.Byte)">
+            <summary>Clamp inclusive</summary>
+            <param name="value"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Math.Clamp(System.Int32,System.Byte,System.Byte)">
+            <summary>Clamp inclusive</summary>
+            <param name="value"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.Math.Clamp(System.Int32,System.Int32,System.Int32)">
             <summary>Clamp inclusive</summary>
             <param name="value"></param>
@@ -1707,30 +1835,63 @@
             <param name="value"></param>
             <returns></returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.Math.Abs(System.Int32)">
+            <summary>Get the absolute value</summary><param name="number"></param>
+            <returns>The absolute (non negative) value</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Math.Abs(System.Single)">
+            <summary>Get the absolute value</summary><param name="number"></param>
+            <returns>The absolute (non negative) value</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Math.Abs(System.Double)">
+            <summary>Get the absolute value</summary><param name="number"></param>
+            <returns>The absolute (non negative) value</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.Rand.SelectRandom``1">
             <summary></summary>
             <typeparam name="E"></typeparam>
             <returns>A random value of the provided enum</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Rand.SelectRandom``1(``0[])">
-            <summary>Select a random element from the set</summary>
+            <summary>Select a random element from the set - a null or empty set may error!</summary>
             <typeparam name="T"></typeparam><param name="set"></param>
             <returns>A random item from the set</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Rand.SelectRandom``1(System.Collections.Generic.IList{``0})">
-            <summary>Select a random element from the list</summary>
+            <summary>Select a random element from the list - a null or empty set may error!</summary>
             <typeparam name="T"></typeparam><param name="set"></param>
             <returns>A random item from the list</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Rand.SelectRandom``1(System.Collections.Generic.List{``0})">
-            <summary>Select a random element from the list</summary>
+            <summary>Select a random element from the list - a null or empty set may error!</summary>
             <typeparam name="T"></typeparam><param name="set"></param>
             <returns>A random item from the list</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Rand.SelectRandom``1(System.Collections.Generic.IEnumerable{``0})">
-            <summary>Select a random element from the list</summary>
+            <summary>Select a random element from the list - An empty or null set may error!</summary>
             <typeparam name="T"></typeparam><param name="set"></param>
             <returns>A random item from the list</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Rand.SelectRandomWhere``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+            <param name="set"></param>
+            <param name="predicate"></param>
+            <returns>default if no element is found that satisfies the predicate</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Rand.SelectRandomWhere``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+            <param name="sourceSet"></param>
+            <param name="predicate"></param>
+            <returns>default if none of the elements in the set satisfy the predicate</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Rand.SelectRandomOrFallback``1(System.Collections.Generic.IEnumerable{``0},``0)">
+            <summary>Selects a random item from the list, or returns fallback if the list is null or empty</summary>
+            <typeparam name="T"></typeparam>
+            <param name="set">Select a random element from this set if it is not null or empty, else return the fallback</param>
+            <param name="fallback">Return this if the list is null or empty</param>
+            <returns>A random item from the list or fallback if list is null or empty</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Rand.SelectRandomOrFallback``1(System.Collections.Generic.List{``0},``0)">
             <summary>Selects a random item from the list, or returns fallback if the list is null or empty</summary>
@@ -1746,6 +1907,14 @@
             <param name="fallback">Return this if the list is null or empty</param>
             <returns>A random item from the list or fallback if list is null or empty</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.Rand.SelectRandomSetWhere``1(System.Collections.Generic.IList{``0},System.Int32,System.Predicate{``0})">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+            <param name="sourceSet"></param>
+            <param name="maxItemsToGet"></param>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.Rand.SelectRandomSet``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32)">
             <summary>If source list is smaller or equal to maxItemsToGet, returns a copy of the source list</summary>
             <typeparam name="T"></typeparam>
@@ -1759,10 +1928,13 @@
             <param name="set"></param><param name="setSize"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.Rand.SelectRandom``1(System.Collections.Generic.IList{``0},System.Int32)">
-            <summary>Select a random element from the list</summary>
+            <summary>Select a random element from the list - An empty set will error!</summary>
             <typeparam name="T"></typeparam><param name="set"></param>
             <param name="setSize">The known size of the list</param>
             <returns>A random item from the list</returns>
+        </member>
+        <member name="P:NQualityOfLife.Utils.Rand.Value">
+            <summary>Random value between 0 and 1 inclusive</summary>
         </member>
         <member name="T:NQualityOfLife.Utils.Reflection_">
             <summary>Class containing all sorts of utilities and methods for purposes of reflection and dynamic method invocation</summary>
@@ -1843,17 +2015,15 @@
             <param name="allowNonPublic"></param>
             <returns>The value returned by the static property getter</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.Reflection_.Invoker.Invoke_GetFieldValue``1(System.String,System.Object,System.String)">
+        <member name="M:NQualityOfLife.Utils.Reflection_.Invoker.Invoke_GetFieldValue(System.String,System.Object,System.String)">
             <summary>Get the value stored in the specified field of the instance or static class</summary>
-            <typeparam name="T"></typeparam>
             <param name="fieldName"></param>
             <param name="instance">Get the non static field from this instance, or static field if instance is null</param>
             <param name="nameSpaceDotType"></param>
             <returns>The value stored in the field</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.Reflection_.Invoker.Invoke_GetFieldValue``1(``0,System.String,System.Object,System.String)">
+        <member name="M:NQualityOfLife.Utils.Reflection_.Invoker.Invoke_GetFieldValue(System.Type,System.String,System.Object,System.String)">
             <summary>Get the value of the given instance or static field if instance is null</summary>
-            <typeparam name="T"></typeparam>
             <param name="type"></param>
             <param name="fieldName"></param>
             <param name="instance">Instance class to get the field value of, or null if the field is static</param>
@@ -1881,6 +2051,9 @@
             <param name="parameters">The parameters to invoke the method with, or null if no params or the method is a property getter - Should be null if no params</param>
             <param name="allowNonPublic"></param>
             <returns>The invoke result / The value returned by the target method or property getter</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Reflection_.IsHarmonyPatchClass(System.Type)">
+            <summary>Is the given class a harmony path?</summary><param name="type"></param><returns>True if the class is a harmony patch</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Reflection_.GetTypes_Safe(System.Reflection.Assembly)">
             <summary>Get Types from an Assembly, ReflectionTypeLoadExceptions are handled silently</summary>
@@ -1934,9 +2107,8 @@
             <param name="bindingFlags"></param>
             <returns>The value stored in the non static field of the given instance</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.Reflection_.GetFieldValue``1(System.Type,System.String,System.Reflection.BindingFlags,System.String)">
+        <member name="M:NQualityOfLife.Utils.Reflection_.GetFieldValue(System.Type,System.String,System.Reflection.BindingFlags,System.String)">
             <summary>Get the field value of a static field</summary>
-            <typeparam name="T"></typeparam>
             <param name="declaringType">One of: 'declaringType' or 'nameSpaceDotType' must be provided</param>
             <param name="fieldName"></param>
             <param name="bindingFlags"></param>
@@ -2071,15 +2243,6 @@
             <param name="rect"></param><param name="innerRect"></param>
             <returns>True if all parts of innerRect are inside this rect</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.RectExtensions.DrawLineVertical(UnityEngine.Color,System.Single,System.Single,System.Single)">
-            <summary>Draw a vertical line starting from (x, y) going down</summary>
-            <param name="color"></param><param name="x"></param><param name="y"></param><param name="height"></param>
-            <returns>The line that was drawn</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.RectExtensions.DrawLineHorizontal(UnityEngine.Color,System.Single,System.Single,System.Single)">
-            <summary>Draw a horizontal line starting from (x, y) going right</summary>
-            <param name="color"></param><param name="x"></param><param name="y"></param><param name="length"></param>
-        </member>
         <member name="M:NQualityOfLife.Utils.RectExtensions.InnerSquare(UnityEngine.Rect)">
             <summary>Get a square rect fitted inside the input rect</summary>
             <param name="rect"></param>
@@ -2108,7 +2271,39 @@
             <param name="debug">Draw colored debug rectangles</param>
         </member>
         <member name="T:NQualityOfLife.Utils.DefExtensions">
-            <summary>Def utils WIP</summary>
+            <summary>Def extension utils</summary>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.HasOnCameraSubSounds(Verse.SoundDef)">
+            <summary>Can this sound be played without a source thing on a map?</summary>
+            <param name="soundDef"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.IsGrave(Verse.ThingDef)">
+            <summary>Is the given def a grave? (or sarchophigy)</summary>
+            <param name="thingDef"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.IsChair(Verse.ThingDef)">
+            <summary>Is the given def a chair used for comfort?</summary>
+            <param name="thingDef"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.IsLamp(Verse.ThingDef)">
+            <summary>Is the given def a lamp?</summary>
+            <param name="thingDef"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.IsFurniture(Verse.ThingDef)">
+            <summary>Is the given def a furniture item?</summary>
+            <param name="thingDef"></param>
+            <returns>True if chair, table, bed, etc..</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.IsSpot(Verse.ThingDef,System.Boolean,System.Boolean)">
+            <summary>Is the given def a spot, for the purposes of the spot tab, minification or research changes?</summary>
+            <param name="thingDef"></param>
+            <param name="allowBlueprints"></param>
+            <param name="allowFrames"></param>
+            <returns></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.DefExtensions.CanBeCreatedByPlayer(Verse.ThingDef,System.Boolean)">
             <summary>Can the given thing be created by the player? (crafted / built)</summary>
@@ -2126,8 +2321,54 @@
             <param name="thingDef"></param>
             <returns>True if thing uses no materials to build. Returns false for things that cannot be built or crafted.</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.IsWall(Verse.ThingDef)">
+            <summary>Check if the given def is a wall</summary>
+            <param name="thingDef"></param>
+            <returns>True if yes</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.ShouldBeAbleToMinify(Verse.ThingDef)">
+            <summary>Is this thing something that should logically (or for gameplay reasons) be able to be moved?</summary>
+            <param name="thingDef"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.ShouldNeverBeAbleToMinify(Verse.ThingDef)">
+            <summary>Checks if the thing is something that should logically or for gameplay resons not be able to be minified</summary>
+            <param name="thingDef"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.CanMinify(Verse.ThingDef)">
+            <summary>Is the given thing a valid minifiable thing?</summary>
+            <param name="thingDef"></param>
+            <returns>True if minifiable and valid</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.DefExtensions.IsUnderground(Verse.ThingDef)">
+            <summary>Is the given thing 'underground'</summary>
+            <param name="thingDef"></param>
+            <returns>True if the thing is partly or fully buried or underground</returns>
+        </member>
         <member name="T:NQualityOfLife.Utils.ThingExtensions">
             <summary>Thing def utils WIP</summary>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ThingExtensions.IsLinearResearchPath(Verse.ResearchProjectDef,System.Boolean,System.Boolean)">
+            <summary></summary>
+            <param name="researchProjectDef"></param>
+            <param name="sameTabOnly"></param>
+            <param name="includeHidden"></param>
+            <returns>True if this research leads to exactly 1 other research</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ThingExtensions.DirectChildren(Verse.ResearchProjectDef,System.Boolean,System.Boolean)">
+            <summary></summary>
+            <param name="researchProjectDef"></param>
+            <param name="sameTabOnly"></param>
+            <param name="includeHidden"></param>
+            <returns>The projects that require the given project to be completed first</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ThingExtensions.DirectChildrenList(Verse.ResearchProjectDef,System.Boolean,System.Boolean)">
+            <summary></summary>
+            <param name="researchProjectDef"></param>
+            <param name="sameTabOnly"></param>
+            <param name="includeHidden"></param>
+            <returns>The projects that require the given project to be completed first</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ThingExtensions.AllPrerequisites(Verse.ResearchProjectDef,System.Boolean,System.Boolean,System.Boolean)">
             <summary>Never null</summary>
@@ -2206,10 +2447,228 @@
         <member name="T:NQualityOfLife.Utils.ZoneExtensions">
             <summary>Zone extension methods</summary>
         </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetTemperature(Verse.IntVec3,Verse.Map)">
+            <summary>Get the cell temperature</summary>
+            <param name="loc"></param>
+            <param name="map"></param>
+            <returns>Temperature in Celsius</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.UsesOutdoorTemperature(Verse.IntVec3,Verse.Map)">
+            <summary>Does the given cell use the outdoor map temperature</summary><param name="loc"></param><param name="map"></param><returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.IsPolluted(Verse.IntVec3,Verse.Map)">
+            <summary></summary><param name="c"></param><param name="map"></param><returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetCover(Verse.Map,Verse.IntVec3)">
+            <summary>Get the cover at the cell</summary><param name="c"></param><param name="map"></param><returns>null if no cover at 'c'</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetCover(Verse.IntVec3,Verse.Map)">
+            <summary>Get the cover at the cell</summary><param name="c"></param><param name="map"></param><returns>null if no cover at 'c'</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.Fogged(Verse.Thing,Verse.Map)">
+            <summary></summary>
+            <param name="thing"></param><param name="map"></param>
+            <returns>True if the fog grid is fogged at thing</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.Fogged(Verse.IntVec3,Verse.Map)">
+            <summary></summary>
+            <param name="c"></param><param name="map"></param>
+            <returns>True if the fog grid is fogged at c</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.Fogged(Verse.IntVec3,Verse.Map,Verse.IntVec3)">
+            <summary></summary>
+            <param name="c"></param><param name="map"></param><param name="mapSize"></param>
+            <returns>True if the fog grid is fogged at c</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.Roofed(Verse.IntVec3,Verse.Map,Verse.RoofDef@)">
+            <summary>Returns true if GetRoof is null</summary>
+            <param name="c"></param><param name="map"></param><param name="roofDef"></param>
+            <returns>True if the cell has a roof - Use GetRoof if you need to get the def anyways</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.Roofed(Verse.IntVec3,Verse.Map)">
+            <summary>Returns true if GetRoof is null</summary>
+            <param name="c"></param><param name="map"></param>
+            <returns>True if the cell has a roof - Use GetRoof if you need to get the def anyways</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetRoof(Verse.IntVec3,Verse.Map,Verse.IntVec3)">
+            <summary>Get the roof def from the roof grid</summary>
+            <param name="c"></param><param name="map"></param>
+            <param name="mapSize"></param><returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetRoof(Verse.IntVec3,Verse.Map)">
+            <summary>Get the roof def from the roof grid</summary>
+            <param name="c"></param><param name="map"></param><returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetTerrain(Verse.Map,Verse.IntVec3)">
+            <summary>Gets the terrain def directly from the terrainGrid</summary>
+            <param name="map"></param><param name="at"></param>
+            <returns>The terrainGrid TerrainDef at 'at'</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetTerrain(Verse.IntVec3,Verse.Map,Verse.IntVec3)">
+            <summary>Gets the terrain def directly from the terrainGrid</summary>
+            <param name="map"></param><param name="mapSize"></param><param name="c"></param>
+            <returns>The terrainGrid TerrainDef at c</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetTerrain(Verse.IntVec3,Verse.Map)">
+            <summary>Gets the terrain def directly from the terrainGrid - Normally non null</summary>
+            <param name="map"></param><param name="c"></param>
+            <returns>The terrainGrid TerrainDef at c - Normally non null</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.TerrainAt(Verse.Map,Verse.IntVec3,Verse.IntVec3)">
+            <summary>Gets the terrain def directly from the terrainGrid - Normally non null</summary>
+            <param name="map"></param><param name="at"></param>
+            <param name="mapSize"></param>
+            <returns>The terrainGrid TerrainDef at 'at' - Normally non null</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.TerrainAt(Verse.Map,Verse.IntVec3)">
+            <summary>Gets the terrain def directly from the terrainGrid - Normally non null</summary>
+            <param name="map"></param><param name="at"></param>
+            <returns>The terrainGrid TerrainDef at 'at' - Normally non null</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.TerrainAt(Verse.IntVec3,Verse.Map)">
+            <summary>Gets the terrain def directly from the terrainGrid - Normally non null</summary>
+            <param name="map"></param><param name="c"></param>
+            <returns>The terrainGrid TerrainDef at c</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.CellToIndex(Verse.IntVec3,Verse.MapInfo)">
+            <summary>Get the index of the cell in the direct grid</summary>
+            <param name="c"></param><param name="mapInfo"></param><returns>c.z * mapInfo.Size.x + c.x</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.CellToIndex(Verse.IntVec3,Verse.Map)">
+            <summary>Get the index of the cell in the direct grid</summary>
+            <param name="c"></param><param name="map"></param><returns>c.z * map.info.Size.x + c.x</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.CellToIndex(Verse.Map,Verse.IntVec3)">
+            <summary>Get the index of the cell in the direct grid</summary>
+            <param name="c"></param><param name="map"></param><returns>c.z * map.info.Size.x + c.x</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.CellToIndex(Verse.IntVec3,Verse.IntVec3)">
+            <summary>Get the index of the cell in the direct grid</summary>
+            <param name="c"></param><param name="mapSize"></param><returns>c.z * mapSize.x + c.x</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.CellToIndex(Verse.IntVec3,System.Int32)">
+            <summary>Get the index of the cell in the direct grid</summary>
+            <param name="c"></param><param name="mapSizeX"></param><returns>c.z * mapSizeX + c.x</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.RegionAt(Verse.IntVec3,Verse.Map,Verse.RegionType)">
+            <summary>Get the region at the given cell</summary>
+            <param name="loc"></param>
+            <param name="map"></param>
+            <param name="allowedRegionTypes"></param>
+            <returns>The region at the cell, or null if out of bounds or not valid type</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetRegion(Verse.IntVec3,Verse.Map,Verse.RegionType)">
+            <summary>Get the region at the given cell</summary>
+            <param name="loc"></param>
+            <param name="map"></param>
+            <param name="allowedRegionTypes"></param>
+            <returns>The region at the cell, or null if out of bounds or not valid type</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetZone(Verse.IntVec3,Verse.Map)">
+            <summary>Get the zone at the specifed cell</summary>
+            <param name="c"></param><param name="map"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetThingList(Verse.IntVec3,Verse.Map,Verse.IntVec3)">
+            <summary>Get the things at the specifed cell</summary>
+            <param name="c"></param><param name="map"></param><param name="mapSize"></param>
+            <returns>Thing list, not null</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetFirstPawn(Verse.IntVec3,Verse.Map)">
+            <summary></summary>
+            <param name="cell"></param>
+            <param name="map"></param>
+            <returns>The first thing of type Pawn at cell</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetFirstThing(Verse.IntVec3,Verse.Map,Verse.ThingDef)">
+            <summary></summary>
+            <param name="cell"></param><param name="map"></param><param name="ofDef"></param>
+            <returns>The first thing of the provided def</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetFirstBed(Verse.IntVec3,Verse.Map)">
+            <summary></summary>
+            <param name="cell"></param>
+            <param name="map"></param>
+            <returns>The first thing of type Building_Bed at cell</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetFirstBuilding(Verse.IntVec3,Verse.Map)">
+            <summary></summary>
+            <param name="cell"></param>
+            <param name="map"></param>
+            <returns>The first thing of type Building at cell</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetFirstThing``1(Verse.IntVec3,Verse.Map)">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+            <param name="cell"></param>
+            <param name="map"></param>
+            <returns>The first thing of type T at cell</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetFirstThingWithComp``1(Verse.IntVec3,Verse.Map)">
+            <summary></summary>
+            <typeparam name="TC"></typeparam>
+            <param name="cell"></param>
+            <param name="map"></param>
+            <returns>The first found ThingWithComps with the specified comp, or null if none found</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetFirstThingWithComp``1(Verse.IntVec3,Verse.Map,``0@)">
+            <summary></summary>
+            <typeparam name="TC"></typeparam>
+            <param name="cell"></param>
+            <param name="map"></param>
+            <param name="comp"></param>
+            <returns>The first found ThingWithComps with the specified comp, or null if none found</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetFirst``1(Verse.IntVec3,Verse.Map)">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+            <param name="cell"></param>
+            <param name="map"></param>
+            <returns>The first thing of type T at cell</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetThingListAt(Verse.Map,Verse.IntVec3)">
+            <summary>Get the things at the specifed cell</summary>
+            <param name="c"></param><param name="map"></param>
+            <returns>Thing list, not null</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetThingList(Verse.IntVec3,Verse.Map)">
+            <summary>Get the things at the specifed cell</summary>
+            <param name="c"></param><param name="map"></param>
+            <returns>Thing list, not null</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.InvalidOrZero(Verse.IntVec3)">
+            <summary>Is the cell invalid or 0 (0 is bottom left corner of the map)</summary><param name="cell"></param><returns>True if is invalid or zero</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.CanZone(Verse.IntVec3,Verse.Map,Verse.IntVec3)">
+            <summary>Can the cell be zoned right now?</summary>
+            <param name="c"></param><param name="map"></param>
+            <param name="mapSize"></param>
+            <returns>True if the cell can be zoned</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.CanZone(Verse.IntVec3,Verse.Map)">
+            <summary>Can the cell be zoned right now?</summary>
+            <param name="c"></param><param name="map"></param>
+            <returns>True if the cell can be zoned</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.InBounds(Verse.IntVec3,Verse.IntVec3)">
-            <summary>Is the given cell in bounds of the map (size)</summary>
-            <param name="cell"></param><param name="mapSize"></param>
-            <returns>True if in bounds</returns>
+            <summary>Is the given cell in bounds of the map (size)</summary><param name="cell"></param><param name="mapSize"></param><returns>True if in bounds</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.InNoZoneEdgeArea(Verse.IntVec3,Verse.IntVec3)">
+            <summary>Is the cell too close to the map edge to allow zoning</summary>
+            <param name="c"></param><param name="mapSize"></param>
+            <returns>True if too close to edge</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.InNoZoneEdgeArea(Verse.IntVec3,Verse.Map)">
+            <summary>Is the cell too close to the map edge to allow zoning</summary>
+            <param name="c"></param><param name="map"></param>
+            <returns>True if too close to edge</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.CloseToEdge(Verse.IntVec3,Verse.IntVec3,System.Int32)">
+            <summary></summary>
+            <param name="c"></param>
+            <param name="mapSize"></param>
+            <param name="edgeDist"></param>
+            <returns></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.OnEdge(Verse.IntVec3,Verse.IntVec3,RimWorld.Direction8Way@)">
             <summary>Is this cell right on the edge of the map?</summary>
@@ -2271,12 +2730,18 @@
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.MyCardinalNeighbours(Verse.Thing,System.Int32@,Verse.Map)">
             <summary>Gets all the valid cardinal cells for the given thing</summary>
             <param name="thing"></param><param name="map"></param><param name="cardinalCount">The amount of cardinals returned</param>
-            <returns>A list of all the cardinals in bounds of the map</returns>
+            <returns>An array of the 4 cardinals from the given thing's position (or less if on map edge)</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.MyCardinalNeighbours(Verse.Thing,Verse.Map,System.Int32@)">
             <summary>Gets all the valid cardinal cells for the given thing</summary>
             <param name="thing"></param><param name="map"></param><param name="cardinalCount">The amount of cardinals returned</param>
-            <returns>A list of all the cardinals in bounds of the map</returns>
+            <returns>An array of the 4 cardinals from the given thing's position (or less if on map edge)</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.MyCardinalNeighbours(Verse.IntVec3,Verse.Map)">
+            <summary></summary>
+            <param name="cell"></param>
+            <param name="map">Provide Map.Size for better performance if this method is called multiple times for the same map</param>
+            <returns>Cardinal neighbours that are in bounds of the map</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.MyCardinalNeighbours(Verse.IntVec3,Verse.Map,System.Int32@)">
             <summary></summary>
@@ -2292,12 +2757,22 @@
             <param name="cardinalCount"></param>
             <returns>Cardinal neighbours that are in bounds of the map</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.MyCardinalNeighbourCells(Verse.Thing)">
+            <summary></summary>
+            <param name="t"></param>
+            <returns>All the cells directly bordering the given thing</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.MyNeighbours(Verse.IntVec3,Verse.Map)">
             <summary>Get all valid neighbouring cells of the given cell</summary>
             <param name="cell"></param><param name="map">used for Map.Size</param>
             <returns>all neighbour cells that are in bounds of the map</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.MyNeighbours(Verse.IntVec3,Verse.IntVec3)">
+            <summary>Get all valid neighbouring cells of the given cell</summary>
+            <param name="cell"></param><param name="mapSize">Map.Size</param>
+            <returns>all neighbour cells that are in bounds of the map</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ZoneExtensions.MyNeighboursArray(Verse.IntVec3,Verse.IntVec3)">
             <summary>Get all valid neighbouring cells of the given cell</summary>
             <param name="cell"></param><param name="mapSize">Map.Size</param>
             <returns>all neighbour cells that are in bounds of the map</returns>
@@ -2382,6 +2857,11 @@
             <param name="event">The event is consumed if it is a redo event</param>
             <returns>True if pressing control + Y, else false</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.EventExtensions.Escape(UnityEngine.Event)">
+            <summary></summary>
+            <param name="event"></param>
+            <returns>True if escape is pressed</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.EventExtensions.ShiftAltOnly(NQualityOfLife.KeyCombination)">
             <summary>Shift and Alt pressed?</summary><param name="keyCombination"></param><returns>True if shift and alt pressed</returns>
         </member>
@@ -2429,6 +2909,14 @@
             <param name="event"></param>
             <returns>The key combination of the held modifier keys</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.EventExtensions.ModifierKeys(UnityEngine.Event,System.Boolean@,System.Boolean@,System.Boolean@)">
+            <summary>Get the held modifier keys (shift, control, alt)</summary>
+            <param name="event"></param>
+            <param name="control"></param>
+            <param name="alt"></param>
+            <param name="shift"></param>
+            <returns>The key combination of the held modifier keys</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.EventExtensions.ScrollUp(UnityEngine.Event,System.Single@)">
             <summary>Is the current event a mouse scroll up event?</summary>
             <param name="event"></param>
@@ -2447,6 +2935,14 @@
             <param name="scrollSpeed">The scroll speed / amount (negative float)</param>
             <returns>True if event is scroll down</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.EventExtensions.AnyMouseButtonPress(UnityEngine.Event)">
+            <summary></summary><param name="ev"></param>
+            <returns>True if any of the 3 main mouse buttons are clicked (L, R, M)</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.EventExtensions.LeftClickPress(UnityEngine.Event)">
+            <summary></summary><param name="event"></param>
+            <returns>True when left click is pressed</returns>
+        </member>
         <member name="T:NQualityOfLife.Utils.PawnExtensions">
             <summary>Pawn extension methods</summary>
         </member>
@@ -2460,10 +2956,20 @@
             <param name="pawn"></param><param name="faction"></param><param name="map"></param>
             <returns>The lord of the pawn if the faction of the lord is the same as the provided faction</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.PawnExtensions.Starving(Verse.Pawn)">
+            <summary></summary>
+            <param name="pawn"></param>
+            <returns>True if the given pawn has a food need, and the food need level is &lt;= 0</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.PawnExtensions.DraftIfCan(Verse.Pawn)">
             <summary></summary>
             <param name="pawn"></param>
             <returns>True if pawn was drafted or was already drafted</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.PawnExtensions.IsNightOwl(Verse.Pawn)">
+            <summary>Null checks included</summary>
+            <param name="pawn"></param>
+            <returns>true if has NightOwl trait</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.PawnExtensions.IsBrawler(Verse.Pawn)">
             <summary>Null checks included</summary>
@@ -2474,7 +2980,7 @@
             <summary>Null checks included</summary>
             <param name="pawn"></param>
             <param name="trait"></param>
-            <returns>true if has specified trait</returns>
+            <returns>true if has specified trait - returns false if trait is null</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.PawnExtensions.HasAWeapon(Verse.Pawn)">
             <summary>Is this pawn equipped with a weapon?</summary>
@@ -2591,7 +3097,7 @@
             <param name="formatMode">The format we want to convert the list to</param>
             <returns>The list re-formatted using the selected format mode</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ToList(System.String,System.Boolean)">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.XMLToList(System.String,System.Boolean)">
             <summary>Accepts a string that contains XML '&lt;li&gt;value&lt;/li&gt;' elements.</summary>
             <param name="xmlList"></param>
             <param name="keepTags">Include the '&lt;li&gt;&lt;/li&gt;' tags around the values in the output list</param>
@@ -2744,6 +3250,14 @@
             <param name="predicate"></param>
             <returns>A new list with all the members from the input list that matched the predicate</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.IsNullOrEmpty``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>Returns true if the array is null or empty</summary><typeparam name="T"></typeparam><param name="iEnumerable"></param>
+            <returns>True if the array is null or has a Length of 0</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.NullOrEmpty``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>Returns true if the array is null or empty</summary><typeparam name="T"></typeparam><param name="iEnumerable"></param>
+            <returns>True if the array is null or has a Length of 0</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.NullOrEmpty``1(``0[])">
             <summary>Returns true if the array is null or empty</summary><typeparam name="T"></typeparam><param name="array"></param>
             <returns>True if the array is null or has a Length of 0</returns>
@@ -2754,6 +3268,16 @@
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.NullOrEmpty``1(System.Collections.Generic.List{``0})">
             <summary>Returns true if the list is null or empty</summary><typeparam name="T"></typeparam><param name="list"></param>
+            <returns>True if the list is null or has a Count of 0</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.NullOrEmpty``1(System.Collections.Generic.IList{``0},System.Int32@)">
+            <summary>Returns true if the list is null or empty</summary><typeparam name="T"></typeparam><param name="list"></param>
+            <param name="count"></param>
+            <returns>True if the list is null or has a Count of 0</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.IsNullOrEmpty``1(System.Collections.Generic.IList{``0},System.Int32@)">
+            <summary>Returns true if the list is null or empty</summary><typeparam name="T"></typeparam><param name="list"></param>
+            <param name="count"></param>
             <returns>True if the list is null or has a Count of 0</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.IsNullOrEmpty``1(System.Collections.Generic.List{``0})">
@@ -2786,6 +3310,20 @@
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.HasAny``1(System.Collections.Generic.IEnumerable{``0})">
             <summary></summary><typeparam name="T"></typeparam><param name="enumerable"></param>
+            <returns>True if not null and has at least 1 item</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.HasAny``1(System.Collections.Generic.IList{``0})">
+            <summary></summary><typeparam name="T"></typeparam><param name="iList"></param>
+            <returns>True if not null and has at least 1 item</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.HasAny``1(System.Collections.Generic.IList{``0},System.Int32@)">
+            <summary></summary><typeparam name="T"></typeparam><param name="iList"></param>
+            <param name="count"></param>
+            <returns>True if not null and has at least 1 item</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.Any``1(System.Collections.Generic.IList{``0},System.Int32@)">
+            <summary></summary><typeparam name="T"></typeparam><param name="iList"></param>
+            <param name="count"></param>
             <returns>True if not null and has at least 1 item</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.Any``1(System.Collections.Generic.List{``0})">
@@ -2884,6 +3422,15 @@
             <param name="dictionary"></param>
             <param name="key"></param>
             <param name="value">New value for the key</param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.GetAndSetSafe``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1,``1@)">
+            <summary>Gets the existing value from the dictionary and writes the new value</summary>
+            <typeparam name="K"></typeparam><typeparam name="V"></typeparam>
+            <param name="dictionary"></param>
+            <param name="key"></param>
+            <param name="newValue">The new value to add or set</param>
+            <param name="oldValue">The old value if it was found, or null</param>
+            <returns>True if existing value was in the dictionary, false if it was added now - also returns true on error</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.GetOrAdd``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1)">
             <summary>Gets the value from the dictionary, or adds the provided value</summary>
@@ -3165,6 +3712,34 @@
             <param name="map">Will be taken from room.Map if null, provide it if possible.</param>
             <returns>A list of Things (doors)</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.Networking.Web.OpenURL(System.String)">
+            <summary>Open the given URL in the browser - Displays on screen and log message, and plays sound.</summary>
+            <param name="url"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.File_.CaptureFirstMatchingXMLNode(System.String,System.String,System.String,System.Boolean)">
+            <summary></summary>
+            <param name="rawText"></param>
+            <param name="xmlNode"></param>
+            <param name="targetNodeData">Data inside the node must match this.</param>
+            <param name="debugLogging"></param>
+            <returns>3 nulls if no match found</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.File_.ReplaceFirstMatchingXMLNode(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary></summary>
+            <param name="originalRawText"></param>
+            <param name="xmlNode"></param>
+            <param name="newValue"></param>
+            <param name="oldValue">Node must have this value to be matched</param>
+            <param name="debugLogging"></param>
+            <returns>The input text with the specifed node replaced</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.File_.UpdateAboutXML(System.String,System.String,System.Boolean)">
+            <summary></summary>
+            <param name="folderPath"></param>
+            <param name="fileName"></param>
+            <param name="debugLogging"></param>
+            <returns>True if was succesfully update or no update needed, false if update failed</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.File_.ReadFirstLine(System.String)">
             <summary>Reads the first line of the specified file</summary>
             <param name="filePath">The full path to the file</param>
@@ -3194,6 +3769,19 @@
             <param name="tolerateMissingXMLDeclaration">Xml files should always start with an xml declaration, such as: '&lt;?xml version="1.0" encoding="utf-8" ?&gt;' but this can sometimes be missing. Set this to true to tolerate missing xml declaration.</param>
             <param name="isNewFile"></param>
             <returns>True if valid, else false</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.File_.OverWriteFirstMatchingXMLNode(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary></summary>
+            <param name="folderPath"></param>
+            <param name="fileName"></param>
+            <param name="xmlNode"></param>
+            <param name="newValue"></param>
+            <param name="oldValue"></param>
+            <param name="xmlNode2"></param>
+            <param name="newValue2"></param>
+            <param name="oldValue2"></param>
+            <param name="debugLogging"></param>
+            <returns>True if the write was succesfull, or no changes were needed</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.File_.CreateAnalyzerXML(System.Reflection.Assembly,System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>Create an 'Analyzer.xml' file for use with 'Dubs Performance Analyzer'</summary>
@@ -3230,6 +3818,43 @@
             <param name="assemblyFolderMustBeCalled">The assemblies must be inside a folder named x, if null: this condition is ignored</param>
             <returns>List of the found assemblies or empty list - never null</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.File_.GetFileVersion(System.String,System.String@)">
+            <summary>Get the file version of the file at the given path</summary>
+            <param name="filePath"></param>
+            <param name="message"></param>
+            <returns>null, null symbol or the found version</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.File_.GetAssemblyVersion(System.Reflection.Assembly,System.String@)">
+            <summary>Get the version from the assembly meta data</summary>
+            <param name="assembly"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.File_.GetFileVersion(System.Reflection.Assembly,System.String@)">
+            <summary>Get the actual file version of the given assembly (.dll) file</summary>
+            <param name="assembly"></param><param name="message"></param>
+            <returns>The file version of the actual .dll file.</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.File_.GetVersion(System.Reflection.Assembly,System.String@,System.String@)">
+            <summary>Get the file and assembly version of the given assembly</summary>
+            <param name="assembly"></param>
+            <param name="messageFileVer">The file version of the actual .dll file</param>
+            <param name="messageAssemblyVer">The internal version from the assembly metadata</param>
+            <returns>(string? fileVersion, string? assemblyVersion)</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.File_.GetVersion(Verse.ModMetaData,System.String@)">
+            <summary>Try get the mod version from the meta data - Tries to look for the version in the description text if no explicit version field exists - Returns null if the version data is not given or found</summary>
+            <param name="modMetaData"></param><param name="message">Null if was succesfull, else contains some info about why info was not found</param>
+            <returns>null if no version field or info was found</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.File_.GetVersion(Verse.Mod,System.String@,System.String@,System.String)">
+            <summary>Try get the mod version in order: About.xml -> Assembly (version and or file version)</summary>
+            <param name="mod"></param>
+            <param name="message_FileVer"></param>
+            <param name="message_AssemblyVer"></param>
+            <param name="skipAssembliesWith">Skip assemblies with the provided string in their name</param>
+            <returns></returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.File_.GetAboutFile(System.String,System.String@)">
             <summary>Get a FileInfo of the about xml, or null if not found</summary>
             <param name="aboutFolderPath">The full path to the About folder that contains the About.xml</param>
@@ -3243,26 +3868,30 @@
             <param name="folderPath">The name of the file to get</param>
             <returns>FileInfo of the file or null if not found</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.File_.GetXMLNode_FromModAboutFile(System.String,System.String,System.Boolean,System.Boolean)">
+        <member name="M:NQualityOfLife.Utils.File_.GetXMLNode_FromModAboutFile(System.String,System.String,Verse.ModMetaData,System.Boolean,System.Boolean,System.Boolean)">
             <summary>Gets the xmlNodes inside the specified node</summary>
             <param name="modPackageId">For example "niilo007.niilosqol"</param>
             <param name="xmlNode">Format in the name of the node, with no slashes or greater / less than symbols For example: "supportedVersions"</param>
+            <param name="metaData"></param>
             <param name="logNonCaptureRelatedErrors"></param>
             <param name="tolerateMissingXMLDeclaration">Xml files should always start with an xml declaration, such as: '&lt;?xml version="1.0" encoding="utf-8" ?&gt;' but this can sometimes be missing. Set this to true to tolerate missing xml declaration.</param>
+            <param name="debugLogging"></param>
             <returns>string of the value inside the node, or null if not found</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.File_.GetXMLNode_FromFile(System.IO.FileInfo,System.String,System.Boolean)">
+        <member name="M:NQualityOfLife.Utils.File_.GetFirstMatchingXMLNode_FromFile(System.IO.FileInfo,System.String,System.Boolean,System.Boolean)">
             <summary></summary>
             <param name="file"></param>
             <param name="xmlNode"></param>
             <param name="tolerateMissingXMLDeclaration">Xml files should always start with an xml declaration, such as: '&lt;?xml version="1.0" encoding="utf-8" ?&gt;' but this can sometimes be missing. Set this to true to tolerate missing xml declaration.</param>
+            <param name="debugLogging"></param>
             <returns></returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.File_.GetXMLNode_FromFile(System.String,System.String,System.Boolean)">
+        <member name="M:NQualityOfLife.Utils.File_.GetFirstMatchingXMLNode_FromFile(System.String,System.String,System.Boolean,System.Boolean)">
             <summary></summary>
             <param name="filePath"></param>
             <param name="xmlNode"></param>
             <param name="tolerateMissingXMLDeclaration">Xml files should always start with an xml declaration, such as: '&lt;?xml version="1.0" encoding="utf-8" ?&gt;' but this can sometimes be missing. Set this to true to tolerate missing xml declaration.</param>
+            <param name="debugLogging"></param>
             <returns></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Transpiler.CallsMethod(HarmonyLib.CodeInstruction,System.Reflection.MethodInfo)">
@@ -3288,12 +3917,33 @@
             <param name="text"></param>
             <returns></returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.Log.ErrorOnce(System.Exception,Verse.LookTargets)">
+            <summary>Log exception once with method resolve mode '(...)' and visible id</summary><param name="exception"></param><param name="lookTargets"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.MessageOnChange(System.String,System.Type,System.String)">
+            <summary>Log a message if the message has changed</summary><param name="message"></param><param name="type"></param><param name="methodName"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.Warning(System.String,System.String,Verse.LookTargets)">
+            <summary>Log a warning with the method details and look targets</summary><param name="message"></param><param name="method"></param><param name="lookTargets"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.Warning(System.String,NQualityOfLife.Utils.Log.LogMode,System.String,Verse.LookTargets)">
+            <summary>Log a warning with the given log mode - Logs method name be defuly using the '(omit)' resolve mode</summary><param name="message"></param><param name="logMode"></param><param name="method"></param><param name="lookTargets"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.Warning(System.String,NQualityOfLife.Utils.Log.LogMode,Verse.LookTargets,System.String)">
+            <summary>Log warning message with look targets and visible method name</summary><param name="message"></param><param name="logMode"></param><param name="lookTargets"></param><param name="method"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.Warning(System.String)">
+            <summary>Log a warning with message only</summary><param name="message"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.Warning(System.String,System.String,NQualityOfLife.Utils.Log.LogMode,Verse.LookTargets)">
+            <summary>Log a warning with the given method info</summary><param name="message"></param><param name="method">The method info or mode</param><param name="logMode"></param><param name="lookTargets"></param>
+        </member>
         <member name="M:NQualityOfLife.Utils.Log.Error_Null``1(System.String,System.String,System.String,``0,Verse.LookTargets)">
-            <summary>Logs a null error and returns default or specified value</summary>
+            <summary>Logs a null error and returns the specified value</summary>
             <param name="nullThing">nameof</param>
             <param name="nullThing2"></param><param name="t">nameof(t)</param>
             <param name="lookTargets"></param><param name="method"></param>
-            <returns>T default value or given value</returns>
+            <returns>T specified value</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.Error_Null``1(System.String,System.String,``0,Verse.LookTargets)">
             <summary>Logs a null error and returns default or specified value</summary>
@@ -3304,25 +3954,33 @@
         <member name="M:NQualityOfLife.Utils.Log.Error_Null(System.String,System.String,Verse.LookTargets)">
             <summary>Logs a null error and returns false</summary>
             <param name="t">nameof(t)</param><param name="method"></param>
-            <param name="lookTargets"></param>
-            <returns>false</returns>
+            <param name="lookTargets"></param><returns>false</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.Error_Null(System.String,System.String,System.String,Verse.LookTargets)">
             <summary>Logs a null error and returns false</summary>
             <param name="t1">nameof(t1)</param><param name="t2">nameof(t2)</param><param name="method"></param>
-            <param name="lookTargets"></param>
-            <returns>false</returns>
+            <param name="lookTargets"></param><returns>false</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.Error_Null(System.String,System.String,System.String,System.String,Verse.LookTargets)">
             <summary>Logs a null error and returns false</summary>
-            <param name="t1">nameof(t1)</param><param name="t2">nameof(t2)</param><param name="t3"></param><param name="method"></param><param name="lookTargets"></param>
-            <returns>false</returns>
+            <param name="t1">nameof(t1)</param><param name="t2">nameof(t2)</param><param name="t3"></param><param name="method"></param><param name="lookTargets"></param><returns>false</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.Error_Null(System.String,System.String,System.String,System.String,System.String,Verse.LookTargets)">
             <summary>Logs a null error and returns false</summary>
             <param name="t1">nameof(t1)</param><param name="t2">nameof(t2)</param><param name="t3"></param><param name="t4"></param><param name="method"></param>
-            <param name="lookTargets"></param>
-            <returns>false</returns>
+            <param name="lookTargets"></param><returns>false</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.Error(System.String,NQualityOfLife.Utils.Log.LogMode,Verse.LookTargets)">
+            <summary>Log an error without including the method name or params</summary><param name="message"></param><param name="logMode"></param><param name="lookTargets"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.Error(System.String,System.String,NQualityOfLife.Utils.Log.LogMode,Verse.LookTargets)">
+            <summary>Log error with the given method info</summary><param name="message"></param><param name="method"></param><param name="logMode"></param><param name="lookTargets"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.Error(System.Exception,System.String,NQualityOfLife.Utils.Log.LogMode,Verse.LookTargets)">
+            <summary>Log exception with method name and params</summary><param name="exception"></param><param name="method"></param><param name="logMode"></param><param name="lookTargets"></param>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Log.Error(System.String,System.Exception,System.String,NQualityOfLife.Utils.Log.LogMode,Verse.LookTargets)">
+            <summary>Log exception with a message and method name and params</summary><param name="message"></param><param name="exception"></param><param name="method"></param><param name="logMode"></param><param name="lookTargets"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.GetLogTypeTagString(NQualityOfLife.Utils.Log.LogMode,System.String)">
             <summary></summary>
@@ -3423,42 +4081,6 @@
             <param name="textLength"></param>
             <returns>A list of strings with a length of 'chunkLength'</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.Common.HexToByte(System.String)">
-            <summary>Input must be a string with a length of 2, such as 'F2' or '5F'</summary>
-            <param name="hexCode">Must be 'FF', '0A', 'A2', '01', '00' etc</param>
-            <returns>byte of 0 - 255, for example 'FF' -> '255'</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Common.HexToRGB(System.String)">
-            <summary>Convert a hex color code such as #FF15AB into its RGB components. If the hex code has an Alpha component like in '#FF00AAF6', it will be ignored</summary>
-            <param name="hexCode">Valid inputs: '001122', '#112233', '#ff0000f9', 'FF12F0FF'</param>
-            <returns> If input is null or empty => (0, 0, 0)</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Common.HexToRGBA(System.String)">
-            <summary>Convert a hex color code such as #FF15ABFF into its RGBA components. If the hex code doesn't have an Alpha component like in '#FF15AB', it will be returned as 255.</summary>
-            <param name="hexCode">Valid inputs: '001122', '#112233', '#ff0000f9', 'FF12F0FF'</param>
-            <returns> If input is null or empty => (0, 0, 0, 255)</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Common.RGBAToHex(System.ValueTuple{System.Byte,System.Byte,System.Byte,System.Byte})">
-            <summary></summary><param name="color"></param><returns>a hex code such as '#FF1144FF'</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Common.ByteToHexS(System.Byte)">
-            <summary>Returns the corresponding hex symbol for the given byte, Accepts inputs in the '0 - 15' range!</summary><param name="b">byte in the '0 - 15' range</param><returns>'0 -> 0', '15 -> F'</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Common.ByteToHex(System.Byte)">
-            <summary>Converts a byte value into its corresponding hex code. Such as: '255 -> FF'</summary><param name="b">byte to convert '255 -> FF'</param><returns>a hex code such as 'FF' 'AB' 'F4' etc</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Common.ColorToHex(UnityEngine.Color)">
-            <summary>Converts an UnityEngine.Color into a hex code such as '#FF1144FF'</summary><param name="color"></param><returns>A hex code such as '#FF1144FF'</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Common.HexToColor(System.String)">
-            <summary>Converts a hex code such as '#FF1144FF' into a UnityEngine.Color</summary><param name="color"></param><returns>UnityEngine.Color</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Common.RGBAToColor(System.ValueTuple{System.Byte,System.Byte,System.Byte,System.Byte})">
-            <summary>Converts RGBA values to a UnityEngine.Color</summary><param name="color"></param><returns>UnityEngine.Color</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Common.RGBToColor(System.ValueTuple{System.Byte,System.Byte,System.Byte})">
-            <summary>Converts RGB values to a UnityEngine.Color</summary><param name="color"></param><returns>UnityEngine.Color</returns>
-        </member>
         <member name="M:NQualityOfLife.Utils.Common.ToInt(System.Char,System.Boolean,System.Int32)">
             <summary>Returns the corresponding int for the given char, Accepts inputs in the '0 - 9' range!</summary>
             <param name="c">char in the '0 - 9' range</param>
@@ -3473,15 +4095,18 @@
             <param name="alwaysGoodOrBadAbove"></param>
             <returns>UnityEngine.Color</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.Common.BrightenIfDark(System.String)">
-            <summary>Brightens a hex color code if the color is too dark</summary>
-            <param name="color"></param>
-            <returns>Hex color code such as: '#FF9977'</returns>
+        <member name="M:NQualityOfLife.Utils.Common.RatioToColor(NQualityOfLife.Ratio,System.Boolean,System.Single)">
+            <summary></summary>
+            <param name="ratio"></param>
+            <param name="highIsBad"></param>
+            <param name="alwaysGoodOrBadAbove"></param>
+            <returns>UnityEngine.Color</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.Common.Darken(System.String)">
-            <summary>Darkens a hex color code</summary>
-            <param name="color"></param>
-            <returns>Hex color code such as: '#FF9977'</returns>
+        <member name="M:NQualityOfLife.Utils.Common.Dot(System.String,System.String)">
+            <summary>Concats 2 strings with a dot between them</summary>
+            <param name="text">Text before the dot</param>
+            <param name="dotText">Text after the dot</param>
+            <returns>{text}.{dotText}</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Common.Concat(System.String,System.String)">
             <summary>Concat a string to the end of this string</summary>
@@ -3562,6 +4187,18 @@
             <param name="text"></param>
             <returns>The input string with the last letter/char removed.</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.Common.Contains(System.String,System.Char)">
+            <summary>Checks if the input string contains the specific character - input string must not be null!</summary>
+            <param name="text"></param>
+            <param name="character"></param>
+            <returns>True if the input string contains the character</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Common.ContainsAny(System.String,System.Char[])">
+            <summary>Checks if the input string contains ony of the specific characters - input string must not be null!</summary>
+            <param name="text"></param>
+            <param name="characters"></param>
+            <returns>True if the input string contains any of the characters</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.Common.EndsWith_Fast(System.String,System.Char)">
             <summary>Checks if the provided string ends with the given char</summary>
             <param name="text"></param><param name="with"></param>
@@ -3625,6 +4262,13 @@
             <param name="text"></param>
             <param name="beforeThisChar"></param>
             <returns>The substring before the first found instance of the specified char or 'string.Empty' if not found - Never null</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Common.SubstringBeforeOrFallback(System.String,System.Char,System.String)">
+            <summary>Gets the substring before the first instance of the specified character.</summary>
+            <param name="text"></param>
+            <param name="beforeThisChar"></param>
+            <param name="fallback"></param>
+            <returns>The substring before the first found instance of the specified char or 'fallback' if not found</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Common.SubstringInsideOf_Inclusive(System.String,System.String,System.String,System.StringComparison)">
             <summary>Gets the first substring that is inside the specified start and end strings - Including the start and end strings</summary>
@@ -3873,11 +4517,12 @@
         <member name="T:NQualityOfLife.Utils.Get.Best.MedicalCarePolicy">
             <summary>Methods for getting best medical care policy</summary>
         </member>
-        <member name="M:NQualityOfLife.Utils.Get.Best.MedicalCarePolicy.ForThisPawn(Verse.Map,Verse.Pawn)">
+        <member name="M:NQualityOfLife.Utils.Get.Best.MedicalCarePolicy.ForThisPawn(Verse.Map,Verse.Pawn,System.Boolean)">
             <summary>Get the best medical care policy for the given pawn</summary>
             <returns>bool foundValidPolicy, MedicalCareCategory policy</returns>
             <param name="map">The Map to use as a reference</param>
             <param name="pawnToAssign">The Pawn we want to get the policy for</param>
+            <param name="forPrisoners"></param>
         </member>
         <member name="T:NQualityOfLife.Utils.Get.Best.Area_">
             <summary>Get best Area for...</summary>
@@ -4083,26 +4728,66 @@
             <summary>Get the Absolute value</summary>
             <returns>The absolute value (non negative) of the angle in radians</returns>
         </member>
+        <member name="M:NQualityOfLife.LineExtensions.DrawLineVertical(NQualityOfLife.Point,NQualityOfLife.Point,UnityEngine.Color,System.Single)">
+            <summary>Draw a vertical line starting from start going down</summary>
+            <param name="color"></param>
+            <param name="thickness"></param><param name="start"></param><param name="end"></param>
+            <returns>The line that was drawn</returns>
+        </member>
+        <member name="M:NQualityOfLife.LineExtensions.DrawLineHorizontal(NQualityOfLife.Point,NQualityOfLife.Point,UnityEngine.Color,System.Single)">
+            <summary>Draw a horizontal line starting from start going right</summary>
+            <param name="color"></param><param name="start"></param><param name="end"></param><param name="thickness"></param><returns>The line that was drawn</returns>
+        </member>
+        <member name="M:NQualityOfLife.LineExtensions.DrawLineVertical(NQualityOfLife.Point,UnityEngine.Color,System.Single,System.Single)">
+            <summary>Draw a vertical line starting from start going down</summary>
+            <param name="color"></param>
+            <param name="thickness"></param><param name="start"></param><param name="height"></param>
+            <returns>The line that was drawn</returns>
+        </member>
+        <member name="M:NQualityOfLife.LineExtensions.DrawLineHorizontal(NQualityOfLife.Point,UnityEngine.Color,System.Single,System.Single)">
+            <summary>Draw a horizontal line starting from start going right</summary>
+            <param name="color"></param><param name="start"></param><param name="length"></param><param name="thickness"></param><returns>The line that was drawn</returns>
+        </member>
         <member name="T:NQualityOfLife.Factor">
             <summary>A positive float value</summary>
         </member>
         <member name="M:NQualityOfLife.Factor.LargerOf(System.Single)">
-            <summary>Returns the larger value</summary>
-            <param name="otherValue"></param>
-            <returns>The larger of the 2 values</returns>
+            <summary>Returns the larger value</summary><param name="otherValue"></param><returns>The larger of the 2 values</returns>
         </member>
         <member name="M:NQualityOfLife.Factor.LargerOf(NQualityOfLife.Factor)">
-            <summary>Returns the larger value</summary>
-            <param name="otherValue"></param>
-            <returns>The larger of the 2 values</returns>
+            <summary>Returns the larger value</summary><param name="otherValue"></param><returns>The larger of the 2 values</returns>
         </member>
-        <member name="F:NQualityOfLife.Percentage.InternalValue">
-            <summary>0f - 100f</summary>
+        <member name="T:NQualityOfLife.Percentage">
+            <summary>Represents a float value as a percentage, a float of '1' is 100% when casting</summary>
+        </member>
+        <member name="F:NQualityOfLife.Percentage.PercentageValue">
+            <summary>0f~100f</summary>
         </member>
         <member name="M:NQualityOfLife.Percentage.#ctor(System.Single,System.Single)">
-            <summary>Creates a Percentage</summary>
+            <summary>Creates a Percentage - of/max</summary>
             <param name="of"></param>
             <param name="max">Max value</param>
+        </member>
+        <member name="M:NQualityOfLife.Percentage.op_Explicit(NQualityOfLife.Percentage)~NQualityOfLife.Ratio">
+            <summary>Converts a Percentage with a value between: 0f~100f to a ratio: 0f~1f</summary>
+            <param name="percentage"></param>
+        </member>
+        <member name="M:NQualityOfLife.Percentage.RoundToInt">
+            <summary></summary>
+            <returns>The percentage as an int (0~100)</returns>
+        </member>
+        <member name="T:NQualityOfLife.Ratio">
+            <summary>A float value between 0 and 1</summary>
+        </member>
+        <member name="M:NQualityOfLife.Ratio.#ctor(System.Byte)">
+            <summary>Set the internal value directly 0~255</summary>
+            <param name="value">0~255 - 0~1</param>
+        </member>
+        <member name="T:NQualityOfLife.Recursive">
+            <summary>The method is recursive on itself directly, or trough other methods</summary>
+        </member>
+        <member name="M:NQualityOfLife.Recursive.#ctor">
+            <summary>The method call itself / Is recursive on itself</summary>
         </member>
         <member name="T:NQualityOfLife.Experimental">
             <summary>Marks a method or class as experimental, Meaning it is still in development and could be unstable or un-optimized.</summary>
@@ -4118,6 +4803,9 @@
             <param name="toDo"></param>
             <param name="critical"></param>
             <param name="deadLine_year">Deadline year</param><param name="deadLine_month">Deadline month</param><param name="deadLine_day">Deadline day</param>
+        </member>
+        <member name="F:NQualityOfLife.XML.PatchOperationPathedWithValue.value">
+            <summary>The xml to add or replace etc</summary>
         </member>
         <member name="M:NQualityOfLife.Weapons.SuppressionSystem.Utils_Suppression.CanSuppress(Verse.Pawn)">
             <summary>Can the given pawn be affected by supression?</summary>
@@ -4171,12 +4859,11 @@
             <param name="worldGrid"></param>
             <returns></returns>
         </member>
-        <member name="M:NQualityOfLife.World.Utils_.Tile_.ClosestTileWithRoad(System.Int32,System.Int32@,System.Collections.Generic.List{System.Int32},RimWorld.Planet.WorldGrid)">
+        <member name="M:NQualityOfLife.World.Utils_.Tile_.ClosestTileWithRoad(System.Int32,System.Int32@,System.Collections.Generic.IList{System.Int32})">
             <summary></summary>
             <param name="rootTile"></param>
             <param name="distanceToTile"></param>
             <param name="excludeTiles"></param>
-            <param name="worldGrid"></param>
             <returns>-1 if not found</returns>
         </member>
         <member name="M:NQualityOfLife.World.Utils_.Tile_.LocalFertility(RimWorld.Planet.WorldObject,RimWorld.Planet.WorldGrid,System.Int32)">
@@ -4394,6 +5081,11 @@
             <param name="weakest">weakest faction on the map</param>
             <returns>true if the given faction's surrender is accepted</returns>
         </member>
+        <member name="M:NQualityOfLife.World.Get.SettlementCount(RimWorld.Faction)">
+            <summary>Get the count of the settlements of the given faction</summary>
+            <param name="faction"></param>
+            <returns></returns>
+        </member>
         <member name="T:NQualityOfLife.UI_.Action_Reset_Arch">
             <summary>An action that can be triggered from the settings menu</summary>
         </member>
@@ -4487,6 +5179,19 @@
             <param name="__state">Letter was supressed</param>
             <returns></returns>
         </member>
+        <member name="T:NQualityOfLife.MiscFixes.TriggerAutoPolicyOnPrisnoerCapture_Patch">
+            <summary>Patch for triggering auto assign stuff when capturing a prisoner</summary>
+        </member>
+        <member name="M:NQualityOfLife.MiscFixes.TriggerAutoPolicyOnPrisnoerCapture_Patch.Prefix(RimWorld.JobDriver_TakeToBed,System.Boolean@)">
+            <summary></summary>
+            <param name="__instance"></param>
+            <param name="__state">Will be set to true in the prefix, if the pawn is not yet a prisoner</param>
+        </member>
+        <member name="M:NQualityOfLife.MiscFixes.TriggerAutoPolicyOnPrisnoerCapture_Patch.Postfix(RimWorld.JobDriver_TakeToBed,System.Boolean@)">
+            <summary></summary>
+            <param name="__instance"></param>
+            <param name="__state">Will be true here if was not yet prisoner in prefix</param>
+        </member>
         <member name="T:NQualityOfLife.MiscFixes.NQoL_FoodUtility">
             <summary>Utilities for giving hediffs after food consumption</summary>
         </member>
@@ -4538,7 +5243,7 @@
         <member name="M:NQualityOfLife.AutoAssign.TimeTableSetter.AutoSetTimeTable(Verse.Pawn,System.Boolean,Verse.Map)">
             <summary></summary>
             <param name="pawn"></param>
-            <param name="prisoner"></param>
+            <param name="forSlaves"></param>
             <param name="map"></param>
             <returns>True if the timetable was successfully set, else false</returns>
         </member>
@@ -4556,6 +5261,12 @@
         <member name="M:NQualityOfLife.AutoAssign.ThreatResponseSetter.SmartThreatResponseSetter(Verse.Pawn)">
             <summary>Set HostilityResponseMode to attack if capable of violence</summary>
             <param name="pawn">Set for this pawn</param>
+        </member>
+        <member name="M:NQualityOfLife.AutoAssign.MedicalCareSetter.SmartMedicalCareSetter(Verse.Pawn,System.Boolean,Verse.Map)">
+            <summary>Set the default medical care policy based on what other pawns are set to</summary>
+            <param name="pawn"></param>
+            <param name="forPrisoners"></param>
+            <param name="map"></param>
         </member>
         <member name="M:NQualityOfLife.AutoAssign.WorkSetter.PawnIsAboveAverageAtWorkRelatedSkill(Verse.Pawn,Verse.WorkTypeDef,RimWorld.SkillDef,System.Boolean,Verse.Map)">
             <summary>Is the given Pawn above average in the work related skill?</summary>
