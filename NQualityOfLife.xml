@@ -218,6 +218,14 @@
             <param name="customTooltip">Tooltip, if null: use default</param>
              <returns>setting</returns>
         </member>
+        <member name="M:NQualityOfLife.Settings.Utils_.Listing_Standard_Extensions.NewSlider(System.String,System.Single,System.Single,System.Single,System.String)">
+            <summary>Draw a slider with label and visible value</summary>
+            <param name="labelTranslated">The label that is displayed above the slider</param>
+            <param name="setting">The float we are adjusting, will be drawn on top of the slider</param>
+            <param name="min">Minimum allowed input value</param><param name="max">Maximum allowed input value</param>
+            <param name="customTooltip">Tooltip, if null: use default</param>
+             <returns>setting</returns>
+        </member>
         <member name="M:NQualityOfLife.Settings.Utils_.Listing_Standard_Extensions.DrawColumns(UnityEngine.Color,UnityEngine.Color,UnityEngine.Rect@,UnityEngine.Rect@,UnityEngine.Rect@,UnityEngine.Rect@,System.Int32,System.Single,System.Boolean)">
             <summary>Draw 4 columns with specified height</summary>
             <param name="outlineColor">Outline color</param><param name="fillColor">Column fill color</param>
@@ -446,12 +454,12 @@
             <param name="debug"></param>
             <returns>The rect containing the hyperlink text</returns>
         </member>
-        <member name="M:NQualityOfLife.Settings.Utils_.DrawTabs(UnityEngine.Rect,System.Int32@,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,Verse.SoundDef,Verse.SoundDef,Verse.SoundDef,System.Single)">
+        <member name="M:NQualityOfLife.Settings.Utils_.DrawTabs(UnityEngine.Rect,System.Int32@,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,Verse.SoundDef,Verse.SoundDef,Verse.SoundDef,System.Single,System.Int32)">
             <summary>Draw 4 tab buttons at the top of the given Rect</summary>
             <param name="parentRect">Draw at the top of this</param>
             <param name="currentSelectedTabId">The currently active tab (1-6)</param>
             <param name="outlinePixels">Tab button outline thickness</param>
-            <param name="heightPixels">Height of the tab buttons</param>
+            <param name="heightPixels">Height of the tab buttons</param><param name="tabIdOffset"></param>
             <param name="tip1Key">Tooltip translation key for the button, null means no tip</param><param name="tip2Key">Tooltip translation key for the button, null means no tip</param>
             <param name="tip3Key">Tooltip translation key for the button, null means no tip</param><param name="tip4Key">Tooltip translation key for the button, null means no tip</param>
             <param name="label1">Label of the left most tab</param><param name="label2">Label of the 2. tab from the left</param>
@@ -460,7 +468,7 @@
             <param name="rejectSound">Play this sound if selecting already open tab</param>
             <param name="hoverSound">Play this sound on mouse hover</param>
         </member>
-        <member name="M:NQualityOfLife.Settings.Utils_.DrawTabs(UnityEngine.Rect,System.Int32@,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,Verse.SoundDef,Verse.SoundDef,Verse.SoundDef,System.Single)">
+        <member name="M:NQualityOfLife.Settings.Utils_.DrawTabs(UnityEngine.Rect,System.Int32@,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,Verse.SoundDef,Verse.SoundDef,Verse.SoundDef,System.Single,System.Int32)">
             <summary>Draw 6 tab buttons at the top of the given Rect</summary>
             <param name="parentRect">Draw at the top of this</param>
             <param name="currentSelectedTabId">The currently active tab (1-6)</param>
@@ -474,9 +482,9 @@
             <param name="selectSound">Play this sound when selecting a new tab</param>
             <param name="rejectSound">Play this sound if selecting already open tab</param>
             <param name="hoverSound">Play this sound on mouse hover</param>
-            <param name="buttonHeightPixels"></param>
+            <param name="buttonHeightPixels"></param><param name="tabIdOffset"></param>
         </member>
-        <member name="M:NQualityOfLife.Settings.Utils_.DrawTabButton(UnityEngine.Rect,System.Int32,System.String,System.Int32@,Verse.SoundDef,Verse.SoundDef,Verse.SoundDef,System.String,System.Boolean)">
+        <member name="M:NQualityOfLife.Settings.Utils_.DrawTabButton(UnityEngine.Rect,System.Int32,System.String,System.Int32@,Verse.SoundDef,Verse.SoundDef,Verse.SoundDef,System.String,System.Boolean,System.Single)">
             <summary></summary>
             <param name="tabButtonRect"></param>
             <param name="thisTabId"></param>
@@ -487,6 +495,7 @@
             <param name="hoverSound"></param>
             <param name="tooltipKey"></param>
             <param name="debug"></param>
+            <param name="buttonHeightPixels"></param>
             <returns>The LabelLarge Rect inside the button</returns>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.DrawColumns(UnityEngine.Rect,UnityEngine.Rect@,UnityEngine.Rect@,System.Int32,System.Single)">
@@ -572,8 +581,14 @@
         <member name="F:NQualityOfLife.Settings.Utils_.PopUpWindow.Header">
             <summary>The top part of the window - Intended for a header text</summary>
         </member>
+        <member name="F:NQualityOfLife.Settings.Utils_.PopUpWindow.HeaderTextBox">
+            <summary></summary>
+        </member>
         <member name="F:NQualityOfLife.Settings.Utils_.PopUpWindow.TextArea">
             <summary>The middle section of the window - Intended for text input fields or other controls or displays</summary>
+        </member>
+        <member name="F:NQualityOfLife.Settings.Utils_.PopUpWindow.TextAreaTextBox">
+            <summary></summary>
         </member>
         <member name="F:NQualityOfLife.Settings.Utils_.PopUpWindow.Bottom">
             <summary>The bottom part of the window - Intended for controls such as confirm or cancel buttons</summary>
@@ -705,7 +720,7 @@
             <param name="data">The graphs to get the data for</param>
             <param name="forTick"></param>
             <param name="state"></param>
-            <returns>True if the data was succesfully collected</returns>
+            <returns>True if the data was successfully collected</returns>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.ScrollControls(UnityEngine.Rect,NQualityOfLife.Settings.Utils_.PopUpWindow,NQualityOfLife.Factor@,NQualityOfLife.Factor@,System.Single@,System.Single@)">
             <summary></summary>
@@ -752,7 +767,7 @@
             <returns>True if yes</returns>
         </member>
         <member name="M:NQualityOfLife.Settings.Utils_.MouseHover(UnityEngine.Rect,System.Boolean)">
-            <summary></summary>
+            <summary>Return strue when the mouse is over the given rect,</summary>
             <param name="rect"></param>
             <param name="debug">Enable debug draw.</param>
             <returns>True if mouse is over the Rect</returns>
@@ -1009,15 +1024,18 @@
         </member>
         <member name="T:NQualityOfLife.ITreeNode`3">
             <summary></summary>
-            <typeparam name="IN">The type of the node that implements this interface</typeparam>
-            <typeparam name="D">The type of the data that this node contains</typeparam>
-            <typeparam name="IT">The type of the tree that contains this node</typeparam>
+            <typeparam name="TNode">The type of the node that implements this interface</typeparam>
+            <typeparam name="TData">The type of the data that this node contains</typeparam>
+            <typeparam name="TTree">The type of the tree that contains this node</typeparam>
         </member>
         <member name="P:NQualityOfLife.ITreeNode`3.Parent">
             <summary>The parent of this node - If null, the node is the root of the tree</summary>
         </member>
         <member name="P:NQualityOfLife.ITreeNode`3.Tree">
             <summary>Get the tree that contains this node</summary>
+        </member>
+        <member name="P:NQualityOfLife.ITreeNode`3.Children">
+            <summary>Get the direct child nodes of this node</summary>
         </member>
         <member name="P:NQualityOfLife.ITreeNode`3.Depth">
             <summary>The depth of the node in the tree, where 0 is the root node</summary>
@@ -1047,9 +1065,9 @@
         </member>
         <member name="T:NQualityOfLife.ITree`3">
             <summary></summary>
-            <typeparam name="IN">The type of the node that this tree is made from</typeparam>
-            <typeparam name="IT">The type of the tree that implements this interface</typeparam>
-            <typeparam name="D">The type of the data that this tree can contain</typeparam>
+            <typeparam name="TNode">The type of the node that this tree is made from</typeparam>
+            <typeparam name="TTree">The type of the tree that implements this interface</typeparam>
+            <typeparam name="TData">The type of the data that this tree can contain</typeparam>
         </member>
         <member name="P:NQualityOfLife.ITree`3.Root">
             <summary>The root node of the tree, The root node does not have a parent</summary>
@@ -1068,6 +1086,13 @@
         </member>
         <member name="P:NQualityOfLife.ITree`3.ParentTree">
             <summary>The parent tree of a sub tree || or null if this is not a sub tree</summary>
+        </member>
+        <member name="P:NQualityOfLife.ITree`3.IsSubTree">
+            <summary>Is this tree a sub tree / branch of another tree?</summary>
+        </member>
+        <member name="M:NQualityOfLife.ITree`3.IsSubTreeOf(`2)">
+            <summary>Is this tree a sub tree / branch of the given tree?</summary>
+            <param name="tree"></param><returns></returns>
         </member>
         <member name="F:NQualityOfLife.Tree`1.root">
             <summary>The node that is the root of this tree</summary>
@@ -1088,9 +1113,6 @@
         <member name="P:NQualityOfLife.Tree`1.Node.Count">
             <summary>Get how many direct child nodes this node has</summary>
         </member>
-        <member name="P:NQualityOfLife.Tree`1.Node.Children">
-            <summary>Get the direct child nodes of this node</summary>
-        </member>
         <member name="P:NQualityOfLife.IColor.R">
             <summary>Set or get the Red 'RGBA' component</summary>
         </member>
@@ -1101,7 +1123,7 @@
             <summary>Set or get the Blue 'RGBA' component</summary>
         </member>
         <member name="P:NQualityOfLife.IColor.A">
-            <summary>Set or get the A (Transparency) 'RGBA' component - || 255 is max opacity, 0 is fully transparent</summary>
+            <summary>Get the A (Transparency) 'RGBA' component - || 255 is max opacity, 0 is fully transparent</summary>
         </member>
         <member name="P:NQualityOfLife.IColor.HexCode">
             <summary>Get or set the hex color code (#AA4435FF)</summary>
@@ -1118,6 +1140,12 @@
         <member name="P:NQualityOfLife.IColor.ToColorTag">
             <summary>Get the &lt;color&gt; tag</summary>
         </member>
+        <member name="P:NQualityOfLife.IColorRGBA.A">
+            <summary>Set or get the A (Transparency) 'RGBA' component - || 255 is max opacity, 0 is fully transparent</summary>
+        </member>
+        <member name="P:NQualityOfLife.IColorRGBA.AsRGBA">
+            <summary>Get or set the color as 'RGBA'</summary>
+        </member>
         <member name="T:NQualityOfLife.Hex">
             <summary>Represents a hex color code such as #FF2277FF</summary>
         </member>
@@ -1133,14 +1161,120 @@
             <summary>Get the Absolute value</summary>
             <returns>The absolute value (non negative) of the angle</returns>
         </member>
+        <member name="F:NQualityOfLife.Degrees.value">
+            <summary>Degress as a float</summary>
+        </member>
+        <member name="F:NQualityOfLife.Radians.value">
+            <summary>Radians as a float</summary>
+        </member>
+        <member name="P:NQualityOfLife.IPoint2D.X">
+            <summary>The X (Horizontal) position of the point</summary>
+        </member>
+        <member name="P:NQualityOfLife.IPoint2D.Y">
+            <summary>The Y (Vertical) position of the point</summary>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.Distance(NQualityOfLife.IPoint2D)">
+            <summary>Get the distance to another point</summary><param name="other"></param>
+            <returns>The eucledian distance from this point to the given point</returns>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.Distance(NQualityOfLife.Point2D)">
+            <summary>Get the distance to another point</summary><param name="other"></param>
+            <returns>The eucledian distance from this point to the given point</returns>
+        </member>
+        <member name="P:NQualityOfLife.IPoint2D.Position">
+            <summary>A Point2D representation of this IPoint2D</summary>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.Draw">
+            <summary>Draw the point on the screen</summary>
+            <returns>The point that was drawn</returns>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.Draw(NQualityOfLife.IColor)">
+            <summary>Draw the point on the screen in the given color</summary>
+            <param name="iColor">What color to draw the point in</param><returns>The point that was drawn</returns>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.Draw(UnityEngine.Color)">
+            <summary>Draw the point on the screen in the given color</summary>
+            <param name="color">What color to draw the point in</param><returns>The point that was drawn</returns>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.SumOf(NQualityOfLife.Point2D[])">
+            <summary>Sum all positions</summary><param name="others"></param>
+            <returns>Point2D with a position that is the sum of all the positions of the given points</returns>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.AverageOf(NQualityOfLife.Point2D[])">
+            <summary>The average position of all the given points</summary><param name="others"></param>
+            <returns>Point2D with a position that is the average of all the positions of the given points</returns>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.SumOf(NQualityOfLife.IPoint2D[])">
+            <summary>Sum all positions</summary><param name="others"></param>
+            <returns>Point2D with a position that is the sum of all the positions of the given points</returns>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.AverageOf(NQualityOfLife.IPoint2D[])">
+            <summary>The average position of all the given points</summary><param name="others"></param>
+            <returns>Point2D with a position that is the average of all the positions of the given points</returns>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.NewLine(NQualityOfLife.Point2D)">
+            <summary>Create a new line from the given points</summary><param name="endPoint">The B point of the Line2D</param>
+            <returns>A new Line2D object starting at this point and ending with the given point</returns>
+        </member>
+        <member name="M:NQualityOfLife.IPoint2D.MidPoint(NQualityOfLife.Point2D)">
+            <summary>Get the mid point between two points</summary><param name="other"></param>
+            <returns>Point2D between this instance and the given other point</returns>
+        </member>
+        <member name="P:NQualityOfLife.ILine2D.A">
+            <summary>The A point / start of the line</summary>
+        </member>
+        <member name="P:NQualityOfLife.ILine2D.B">
+            <summary>The B point / end of the line</summary>
+        </member>
         <member name="P:NQualityOfLife.ILine2D.Middle">
-            <summary>The mid point between A and B</summary>
+            <summary>The midpoint between A and B</summary>
         </member>
         <member name="P:NQualityOfLife.ILine2D.Length">
             <summary>The Length between A and B</summary>
         </member>
+        <member name="M:NQualityOfLife.ILine2D.Draw(System.Single)">
+            <summary>Draw the line with the given line thickness and default color</summary>
+            <param name="lineThickness"></param><returns>The line that was drawn</returns>
+        </member>
+        <member name="M:NQualityOfLife.ILine2D.Draw(NQualityOfLife.IColor,System.Single)">
+            <summary>Draw the line with the given line thickness and color</summary>
+            <param name="iColor">Draw the line in this color</param><param name="lineThickness"></param><returns>The line that was drawn</returns>
+        </member>
+        <member name="M:NQualityOfLife.ILine2D.Draw(UnityEngine.Color,System.Single)">
+            <summary>Draw the line with the given line thickness and color</summary>
+            <param name="color">Draw the line in this color</param><param name="lineThickness"></param><returns>The line that was drawn</returns>
+        </member>
+        <member name="M:NQualityOfLife.ILine2D.Deconstruct(NQualityOfLife.Point2D@,NQualityOfLife.Point2D@)">
+            <summary></summary>
+            <param name="a">A point of the line</param>
+            <param name="b">B point of the line</param>
+        </member>
+        <member name="M:NQualityOfLife.ILine2D.Contains(NQualityOfLife.Point2D)">
+            <summary></summary><param name="point"></param>
+            <returns>True if the given point is any point on the line</returns>
+        </member>
+        <member name="M:NQualityOfLife.ILine2D.Contains(NQualityOfLife.IPoint2D)">
+            <summary></summary><param name="point"></param>
+            <returns>True if the given point is any point on the line</returns>
+        </member>
+        <member name="M:NQualityOfLife.ILine2D.SetAngleAroundA(NQualityOfLife.Degrees)">
+            <summary>Set the angle such that the 'A' point of the line stays in the same position</summary>
+            <param name="degrees"></param><returns>A new line that has the same 'A' point</returns>
+        </member>
+        <member name="M:NQualityOfLife.ILine2D.SetAngleAroundB(NQualityOfLife.Degrees)">
+            <summary>Set the angle such that the 'B' point of the line stays in the same position</summary>
+            <param name="degrees"></param><returns>A new line that has the same 'B' point</returns>
+        </member>
+        <member name="M:NQualityOfLife.ILine2D.RotateAroundA(NQualityOfLife.Degrees)">
+            <summary>Rotate the line such that the 'A' point of the line stays in the same position</summary>
+            <param name="degrees"></param><returns>A new line that has the same 'A' point</returns>
+        </member>
+        <member name="M:NQualityOfLife.ILine2D.RotateAroundB(NQualityOfLife.Degrees)">
+            <summary>Rotate the line such that the 'B' point of the line stays in the same position</summary>
+            <param name="degrees"></param><returns>A new line that has the same 'B' point</returns>
+        </member>
         <member name="P:NQualityOfLife.ILine3D.Middle">
-            <summary>The mid point between A and B</summary>
+            <summary>The midpoint between A and B</summary>
         </member>
         <member name="P:NQualityOfLife.ILine3D.Length">
             <summary>The Length between A and B</summary>
@@ -1166,8 +1300,95 @@
         <member name="T:NQualityOfLife.Factor">
             <summary>A positive float value</summary>
         </member>
+        <member name="M:NQualityOfLife.Factor.#ctor(System.Single)">
+            <summary>The input float must be positive or the constructor will <see langword="throw"/> a <see cref="T:System.ArgumentOutOfRangeException"/></summary>
+            <param name="factor"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Multiply(NQualityOfLife.Factor,System.UInt32)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="factor"></param><param name="integer"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Multiply(System.UInt32,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="factor"></param><param name="integer"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Multiply(System.Int32,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="factor"></param><param name="integer"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Multiply(NQualityOfLife.Factor,NQualityOfLife.Ratio)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="factor"></param><param name="ratio"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Multiply(NQualityOfLife.Ratio,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="factor"></param><param name="ratio"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Multiply(System.Single,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="factor"></param><param name="number"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Multiply(NQualityOfLife.Factor,System.Single)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="factor"></param><param name="number"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Multiply(NQualityOfLife.Factor,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Division(NQualityOfLife.Factor,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Division(System.Single,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Division(NQualityOfLife.Factor,System.Single)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Addition(NQualityOfLife.Factor,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Addition(NQualityOfLife.Factor,System.Single)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Addition(System.Single,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="number"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Addition(NQualityOfLife.Factor,System.UInt32)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Addition(System.UInt32,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Subtraction(NQualityOfLife.Factor,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Subtraction(NQualityOfLife.Factor,System.Single)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="left"></param><param name="number"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Factor.op_Subtraction(System.Single,NQualityOfLife.Factor)">
+            <summary>Trying to do math with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></summary>
+            <param name="number"></param><param name="right"></param><returns></returns><exception cref="T:System.InvalidOperationException"></exception>
+        </member>
         <member name="M:NQualityOfLife.Factor.LargerOf(NQualityOfLife.Factor)">
             <summary>Returns the larger value</summary><param name="otherValue"></param><returns>The larger of the 2 values</returns>
+        </member>
+        <member name="M:NQualityOfLife.Factor.Abs">
+            <summary></summary>
+            <returns>this <see cref="T:NQualityOfLife.Factor"/> un-changed</returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <remarks>Trying to get the Abs() with an <see cref="F:NQualityOfLife.Factor.invalid"/> <see cref="T:NQualityOfLife.Factor"/> will <see langword="throw"/> a <see cref="T:System.InvalidOperationException"/></remarks>
         </member>
         <member name="T:NQualityOfLife.Percentage">
             <summary>Represents a float value as a percentage, a float of '1' is 100% when casting</summary>
@@ -1189,11 +1410,365 @@
             <returns>The percentage as an int (0~100)</returns>
         </member>
         <member name="T:NQualityOfLife.Ratio">
-            <summary>A float value between 0 and 1</summary>
+            <summary>A float value between 0 and 1 - the value is stored in a byte, so some precision is lost.</summary>
+        </member>
+        <member name="M:NQualityOfLife.Ratio.#ctor(System.Single)">
+            <summary></summary>
+            <param name="ratio"></param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Ratio.#ctor(System.Int32)">
+            <summary></summary>
+            <param name="ratio"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="M:NQualityOfLife.Ratio.#ctor(System.Byte)">
             <summary>Set the internal value directly 0~255</summary>
             <param name="value">0~255 - 0~1</param>
+        </member>
+        <member name="M:NQualityOfLife.Ratio2.#ctor(UnityEngine.Vector2)">
+            <summary></summary>
+            <param name="vector2"></param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Ratio2.#ctor(System.Single,System.Single)">
+            <summary></summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:NQualityOfLife.IDimensionallyEquivalent`2">
+            <summary>The unit is dimensionally equivalent to another unit, but not used in the same context / is not meaningfully comparable.</summary>
+            <typeparam name="A"></typeparam><typeparam name="B"></typeparam>
+        </member>
+        <member name="T:NQualityOfLife.Torque">
+            <summary>Unit for Torque - NewtonMeter - (Newton * Meter)</summary>
+        </member>
+        <member name="T:NQualityOfLife.IDimension">
+            <summary>Interface for units - Used for dimensional analysis</summary>
+        </member>
+        <member name="P:NQualityOfLife.IDimension.Dimension">
+            <summary>The dimensionality of the unit</summary>
+        </member>
+        <member name="T:NQualityOfLife.IMetricSystem">
+            <summary>Interface for units of the metric system</summary>
+        </member>
+        <member name="T:NQualityOfLife.Dimension">
+            <summary>Struct for performing Dimensional analysis (https://en.wikipedia.org/wiki/Dimensional_analysis)</summary>
+        </member>
+        <member name="T:NQualityOfLife.Dimension.BaseDimension">
+            <summary>The base dimensions that all other dimensions / units are derived from</summary>
+        </member>
+        <member name="F:NQualityOfLife.Dimension.T">
+            <summary>Time dimension - Second</summary>
+        </member>
+        <member name="F:NQualityOfLife.Dimension.L">
+            <summary>Length dimension - Meter</summary>
+        </member>
+        <member name="F:NQualityOfLife.Dimension.M">
+            <summary>Mass dimension - Kg</summary>
+        </member>
+        <member name="F:NQualityOfLife.Dimension.I">
+            <summary>Electric Current dimension</summary>
+        </member>
+        <member name="F:NQualityOfLife.Dimension.Θ">
+            <summary>Absolute Temperature dimension - Kelvin</summary>
+        </member>
+        <member name="F:NQualityOfLife.Dimension.N">
+            <summary>Amount of Substance dimension</summary>
+        </member>
+        <member name="F:NQualityOfLife.Dimension.J">
+            <summary>Luminous Intensity dimension</summary>
+        </member>
+        <member name="M:NQualityOfLife.Dimension.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>Create a Dimension object with the given dimensions</summary>
+            <param name="T">Time - Second</param>
+            <param name="L">Length dimension - Meter</param>
+            <param name="M">Mass dimension - Kg</param>
+            <param name="I">Electric Current dimension</param>
+            <param name="Θ">Absolute Temperature dimension - Kelvin</param>
+            <param name="N">Amount of Substance dimension</param>
+            <param name="J">Luminous Intensity dimension</param>
+        </member>
+        <member name="T:NQualityOfLife.Dimension.ParseStep">
+            <summary>enum for tracking the state of the string parser</summary>
+        </member>
+        <member name="M:NQualityOfLife.Dimension.#ctor(System.String)">
+            <summary>Create a Dimension object with the given dimensions parsed from a string</summary>
+            <param name="fromString"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Internal error if the parser tries to access an invalid dimension address</exception>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.Time">
+            <summary>Time - Second</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.Length">
+            <summary>Length - Meter</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.Mass">
+            <summary>Mass - Kg</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.Temperature">
+            <summary>Absolute Temperature - Kelvin</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.AmountOfSubstance">
+            <summary>Amount Of Substance - Moles</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.Frequency">
+            <summary>Frequency - Hertz</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.ElectricPotentialDifference">
+            <summary>Electric Potential Difference - Voltage</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.Energy">
+            <summary>Energy - Joules</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.Force">
+            <summary>Force - Newton</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.Resistance">
+            <summary>Electrical Resistance - Ohm</summary>
+        </member>
+        <member name="P:NQualityOfLife.Dimension.Power">
+            <summary>Power - Watt</summary>
+        </member>
+        <member name="T:NQualityOfLife.Newton">
+            <summary>The Newton is an unit of force</summary>
+        </member>
+        <member name="T:NQualityOfLife.AbstractUnit">
+            <summary>A Value that has some other dimensionality than any defined unit.</summary>
+        </member>
+        <member name="T:NQualityOfLife.Joule">
+            <summary>The Joule is an unit of energy</summary>
+        </member>
+        <member name="T:NQualityOfLife.Watt">
+            <summary>The Watt is an unit of power || the energy(Joule) / second(Second)</summary>
+        </member>
+        <member name="M:NQualityOfLife.Watt.op_Multiply(NQualityOfLife.Watt,NQualityOfLife.Second)">
+            <summary></summary><param name="power"></param><param name="time"></param>
+            <returns>The total energy over time with the given power</returns>
+        </member>
+        <member name="M:NQualityOfLife.Watt.op_Multiply(NQualityOfLife.Second,NQualityOfLife.Watt)">
+            <summary></summary><param name="power"></param><param name="time"></param>
+            <returns>The total energy over time with the given power</returns>
+        </member>
+        <member name="M:NQualityOfLife.Watt.op_Division(NQualityOfLife.Watt,NQualityOfLife.Ampere)">
+            <summary></summary><param name="power"></param><param name="perCurrent"></param>
+            <returns>The voltage required to achieve the given power with the given current</returns>
+        </member>
+        <member name="M:NQualityOfLife.Watt.op_Division(NQualityOfLife.Watt,NQualityOfLife.Volt)">
+            <summary></summary><param name="power"></param><param name="voltage"></param>
+            <returns>The current required to achieve the given power with the given voltage</returns>
+        </member>
+        <member name="T:NQualityOfLife.Volt">
+            <summary>The Volt is an unit of electric potential</summary>
+        </member>
+        <member name="M:NQualityOfLife.Volt.op_Multiply(NQualityOfLife.Charge,NQualityOfLife.Volt)">
+            <summary></summary>
+            <param name="charge"></param>
+            <param name="voltage"></param>
+            <returns>The total amount of stored energy</returns>
+        </member>
+        <member name="M:NQualityOfLife.Volt.op_Multiply(NQualityOfLife.Volt,NQualityOfLife.Charge)">
+            <summary></summary>
+            <param name="charge"></param>
+            <param name="voltage"></param>
+            <returns>The total amount of stored energy</returns>
+        </member>
+        <member name="M:NQualityOfLife.Volt.op_Division(NQualityOfLife.Volt,NQualityOfLife.Ampere)">
+            <summary></summary>
+            <param name="voltage"></param>
+            <param name="current"></param>
+            <returns>The resistance of the system with the given current and voltage</returns>
+        </member>
+        <member name="T:NQualityOfLife.Ampere">
+            <summary>Ampere is how many Charges / Second are moving past a given point</summary>
+        </member>
+        <member name="M:NQualityOfLife.Ampere.op_Multiply(NQualityOfLife.Ampere,NQualityOfLife.Second)">
+            <summary></summary><param name="current"></param><param name="time"></param>
+            <returns>The total charge transferred at the given current and time</returns>
+        </member>
+        <member name="M:NQualityOfLife.Ampere.op_Multiply(NQualityOfLife.Second,NQualityOfLife.Ampere)">
+            <summary></summary><param name="current"></param><param name="time"></param>
+            <returns>The total charge transferred at the given current and time</returns>
+        </member>
+        <member name="M:NQualityOfLife.Ampere.op_Multiply(NQualityOfLife.Ampere,NQualityOfLife.OhmΩ)">
+            <summary></summary><param name="current"></param><param name="resistance"></param>
+            <returns>The voltage over the resistor with the given current</returns>
+        </member>
+        <member name="M:NQualityOfLife.Ampere.op_Multiply(NQualityOfLife.OhmΩ,NQualityOfLife.Ampere)">
+            <summary></summary><param name="current"></param><param name="resistance"></param>
+            <returns>The voltage over the resistor with the given current</returns>
+        </member>
+        <member name="T:NQualityOfLife.Farad">
+            <summary>coulomb per volt || The capacity for a body to store charge</summary>
+        </member>
+        <member name="T:NQualityOfLife.Henry">
+            <summary>The Henry is the unit of electrical inductance</summary>
+        </member>
+        <member name="T:NQualityOfLife.Tesla">
+            <summary>weber per square metre</summary>
+        </member>
+        <member name="T:NQualityOfLife.ICharge">
+            <summary>Electric charge</summary>
+        </member>
+        <member name="T:NQualityOfLife.ElementaryCharge">
+            <summary>The charge of one electron(-) or proton(+)</summary>
+        </member>
+        <member name="T:NQualityOfLife.Weber">
+            <summary>volt second || The Weber is an unit of magnetic flux || 1Wb == 1V * 1s || Weber == Henry * Ampere</summary>
+        </member>
+        <member name="T:NQualityOfLife.Charge">
+            <summary>Coulomb is the unit of electric charge || "It is defined to be equal to the electric charge delivered by a 1 ampere current in 1 second."(Wikipedia) || Coulomb == Ampere * Second</summary>
+        </member>
+        <member name="M:NQualityOfLife.Charge.op_Division(NQualityOfLife.Charge,NQualityOfLife.Second)">
+            <summary></summary><param name="charge"></param><param name="time"></param>
+            <returns>The current that the given charge can produce for the given time</returns>
+        </member>
+        <member name="M:NQualityOfLife.Distance.#ctor(NQualityOfLife.Velocity,NQualityOfLife.Second)">
+            <summary>The distance traveled in the given time at the given speed</summary>
+            <param name="velocity">The constant velocity/speed vector</param><param name="time">How long to travel at the given speed</param>
+        </member>
+        <member name="M:NQualityOfLife.Speed.#ctor(NQualityOfLife.Acceleration,NQualityOfLife.Second)">
+            <summary>The speed delta from accelerating at the given rate for the given time</summary>
+            <param name="acceleration"></param>
+            <param name="seconds"></param>
+        </member>
+        <member name="T:NQualityOfLife.IVector`1">
+            <summary>A vector composed of the specified type</summary>
+            <typeparam name="T">The type of the vector</typeparam>
+        </member>
+        <member name="P:NQualityOfLife.IVector`1.Magnitude">
+            <summary>The magnitude of the vector</summary>
+        </member>
+        <member name="T:NQualityOfLife.IVector2`1">
+            <summary>a 2 dimensional vector composed of the specified type</summary>
+            <typeparam name="T">The type of the vector</typeparam>
+        </member>
+        <member name="M:NQualityOfLife.IVector2`1.Deconstruct(`0@,`0@)">
+            <summary>Get the X and Y components of the 2D vector</summary>
+            <param name="x">The X component of the vector</param>
+            <param name="y">The Y component of the vector</param>
+        </member>
+        <member name="T:NQualityOfLife.IVector3`1">
+            <summary>a 3 dimensional vector composed of the specified type</summary>
+            <typeparam name="T">The type of the vector</typeparam>
+        </member>
+        <member name="M:NQualityOfLife.IVector3`1.Deconstruct(`0@,`0@,`0@)">
+            <summary>Get the X, Y and Z components of the 3D vector</summary>
+            <param name="x">The X component of the vector</param>
+            <param name="y">The Y component of the vector</param>
+            <param name="z">The Z component of the vector</param>
+        </member>
+        <member name="T:NQualityOfLife.IVelocity`1">
+            <summary>A vector that can be used to reprecent velocity in a 2D or 3D context</summary>
+            <typeparam name="TSpeed">The unit of speed</typeparam>
+        </member>
+        <member name="T:NQualityOfLife.Velocity">
+            <summary>Velocity is a 3D speed vector</summary>
+        </member>
+        <member name="T:NQualityOfLife.Acceleration">
+            <summary>Acceleration - m/s^2</summary>
+        </member>
+        <member name="T:NQualityOfLife.AccelerationVector">
+            <summary>3D acceleration vector</summary>
+        </member>
+        <member name="T:NQualityOfLife.HeatCapacity">
+            <summary>Heat capacity - joules/Kelvin</summary>
+        </member>
+        <member name="T:NQualityOfLife.SpecificHeatCapacity">
+            <summary>Specific heat capacity - J/(Kg*K)</summary>
+        </member>
+        <member name="T:NQualityOfLife.Celsius">
+            <summary>Celsius degrees</summary>
+        </member>
+        <member name="F:NQualityOfLife.Celsius.AbsoluteZeroC">
+            <summary>Absolute zero in Celsius</summary>
+        </member>
+        <member name="F:NQualityOfLife.Celsius.C">
+            <summary>floating point value in Celsius</summary>
+        </member>
+        <member name="M:NQualityOfLife.Celsius.op_Equality(NQualityOfLife.Celsius,NQualityOfLife.Celsius)">
+            <summary></summary><param name="left"></param><param name="right"></param><returns>True if the two temperature values represent the same temperature</returns>
+        </member>
+        <member name="M:NQualityOfLife.Celsius.op_Equality(NQualityOfLife.Celsius,System.Single)">
+            <summary></summary><param name="left"></param><param name="celsius">A floating point number in Celsius</param><returns>True if the two temperature values represent the same temperature || True if the two Celsius degree values are equal</returns>
+        </member>
+        <member name="M:NQualityOfLife.Celsius.op_Inequality(NQualityOfLife.Celsius,System.Single)">
+            <summary></summary><param name="left"></param><param name="celsius">A floating point number in Celsius</param><returns>True if the two Celsius degree values are not equal</returns>
+        </member>
+        <member name="M:NQualityOfLife.Celsius.op_Equality(System.Single,NQualityOfLife.Celsius)">
+            <summary></summary><param name="right"></param><param name="celsius">A floating point number in Celsius</param><returns>True if the two temperature values represent the same temperature || True if the two Celsius degree values are equal</returns>
+        </member>
+        <member name="M:NQualityOfLife.Celsius.op_Inequality(System.Single,NQualityOfLife.Celsius)">
+            <summary></summary><param name="right"></param><param name="celsius">A floating point number in Celsius</param><returns>True if the two Celsius degree values are not equal</returns>
+        </member>
+        <member name="F:NQualityOfLife.Fahrenheit.AbsoluteZeroF">
+            <summary>Absolute Zero in Fahrenheit (0K)</summary>
+        </member>
+        <member name="F:NQualityOfLife.Fahrenheit.ZeroCelciusF">
+            <summary>Freezing point of water in Fahrenheit (0°C)</summary>
+        </member>
+        <member name="F:NQualityOfLife.Fahrenheit.F">
+            <summary>Fahrenheit</summary>
+        </member>
+        <member name="M:NQualityOfLife.Fahrenheit.op_Equality(NQualityOfLife.Fahrenheit,NQualityOfLife.Fahrenheit)">
+            <summary></summary><param name="left"></param><param name="right"></param><returns>True if the two temperature values represent the same temperature</returns>
+        </member>
+        <member name="M:NQualityOfLife.Fahrenheit.op_Equality(NQualityOfLife.Fahrenheit,NQualityOfLife.Kelvin)">
+            <summary></summary><param name="left"></param><param name="kelvin"></param><returns>True if the two temperature values represent the same temperature</returns>
+        </member>
+        <member name="M:NQualityOfLife.Fahrenheit.op_Equality(NQualityOfLife.Fahrenheit,NQualityOfLife.Celsius)">
+            <summary></summary><param name="left"></param><param name="celsius"></param><returns>True if the two temperature values represent the same temperature</returns>
+        </member>
+        <member name="M:NQualityOfLife.Fahrenheit.op_Equality(NQualityOfLife.Kelvin,NQualityOfLife.Fahrenheit)">
+            <summary></summary><param name="kelvin"></param><param name="right"></param><returns>True if the two temperature values represent the same temperature</returns>
+        </member>
+        <member name="M:NQualityOfLife.Fahrenheit.op_Equality(NQualityOfLife.Celsius,NQualityOfLife.Fahrenheit)">
+            <summary></summary><param name="celsius"></param><param name="right"></param><returns>True if the two temperature values represent the same temperature</returns>
+        </member>
+        <member name="M:NQualityOfLife.Fahrenheit.op_Equality(NQualityOfLife.Fahrenheit,System.Single)">
+            <summary></summary><param name="left"></param><param name="fahrenheit"></param><returns>True if the two temperature values represent the same temperature</returns>
+        </member>
+        <member name="M:NQualityOfLife.Fahrenheit.op_Equality(System.Single,NQualityOfLife.Fahrenheit)">
+            <summary></summary><param name="fahrenheit"></param><param name="right"></param><returns>True if the two temperature values represent the same temperature</returns>
+        </member>
+        <member name="T:NQualityOfLife.ITemperature">
+            <summary>Interface for temperature units</summary>
+        </member>
+        <member name="P:NQualityOfLife.ITemperature.IsAbsoluteZero">
+            <summary>Is the current value of this instance 0 Kelvin?</summary>
+        </member>
+        <member name="P:NQualityOfLife.ITemperature.ToC">
+            <summary>Get this temperature in Celsius degrees</summary>
+        </member>
+        <member name="P:NQualityOfLife.ITemperature.InC">
+            <summary>Get this temperature in Celsius degrees as a float</summary>
+        </member>
+        <member name="P:NQualityOfLife.ITemperature.ToK">
+            <summary>Get this temperature in Kelvin</summary>
+        </member>
+        <member name="P:NQualityOfLife.ITemperature.InK">
+            <summary>Get this temperature in Kelvin as a float</summary>
+        </member>
+        <member name="P:NQualityOfLife.ITemperature.ToF">
+            <summary>Get this temperature in Fahrenheit degrees</summary>
+        </member>
+        <member name="P:NQualityOfLife.ITemperature.InF">
+            <summary>Get this temperature in Fahrenheit degrees as a float</summary>
+        </member>
+        <member name="T:NQualityOfLife.Kelvin">
+            <summary>Kelvin is the unit of absolute temperature</summary>
+        </member>
+        <member name="F:NQualityOfLife.Kelvin.ZeroCelsiusK">
+            <summary>0C in kelvin</summary>
+        </member>
+        <member name="F:NQualityOfLife.Kelvin.K">
+            <summary>Kelvin</summary>
+        </member>
+        <member name="M:NQualityOfLife.Kelvin.#ctor(System.Single)">
+            <summary></summary>
+            <param name="kelvin"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="M:NQualityOfLife.Comps.BuildingComp.Notify_Killed(Verse.Map,System.Nullable{Verse.DamageInfo})">
             <summary>N/A</summary><param name="prevMap">N/A</param><param name="dInfo">N/A</param>
@@ -1692,28 +2267,46 @@
             <returns>The values of the xml list</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.IndexOf(System.String,System.Char,System.Int32@)">
-            <summary>Get the zero based index of the first occurance of the given character || or -1 if none found.</summary><param name="str"></param><param name="character"></param><param name="stringLength">The Length of the string</param><returns>The zero based index || or -1 if not found</returns>
+            <summary>Get the zero based index of the first occurance of the given <paramref name="character"/> || or -1 if none found.</summary><param name="str"></param><param name="character"></param><param name="stringLength">The Length of the string</param><returns>The zero based index || or -1 if not found</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.FirstIndexOf(System.String,System.Char)">
-            <summary>Get the zero based index of the first occurance of the given character || or -1 if none found.</summary><param name="text"></param><param name="character"></param><returns>The zero based index || or -1 if not found</returns>
+            <summary>Get the zero based index of the first occurance of the given <paramref name="character"/> || or -1 if none found.</summary><param name="text"></param><param name="character"></param><returns>The zero based index || or -1 if not found</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.FirstIndexOf(System.String,System.Char,System.Int32@)">
-            <summary>Get the zero based index of the first occurance of the given character || or -1 if none found.</summary><param name="text"></param><param name="character"></param><param name="stringLength">The Length of the string</param><returns>The zero based index || or -1 if not found</returns>
+            <summary>Get the zero based index of the first occurance of the given <paramref name="character"/> || or -1 if none found.</summary><param name="text"></param><param name="character"></param><param name="stringLength">The Length of the string</param><returns>The zero based index || or -1 if not found</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.LastIndexOf(System.String,System.Char,System.Int32@)">
-            <summary>Get the zero based index of the last occurance of the given character || or -1 if none found.</summary><param name="text"></param><param name="character"></param><param name="stringLength">The Length of the string</param><returns>The zero based index || or -1 if not found</returns>
+            <summary>Get the zero based index of the last occurance of the given <paramref name="character"/> || or -1 if none found.</summary><param name="text"></param><param name="character"></param><param name="stringLength">The Length of the string</param><returns>The zero based index || or -1 if not found</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.IndexOf(System.String,System.String,System.Int32@,System.StringComparison)">
-            <summary>Get the zero based index of the first occurance of the given subString || or -1 if none found.</summary><param name="str"></param><param name="subString"></param><param name="stringLength"></param><param name="comparisonType"></param><returns>The zero based index || or -1 if not found</returns>
+            <summary>Get the zero based index of the first occurance of the given <paramref name="subString"/> || or -1 if none found.</summary><param name="str"></param><param name="subString"></param><param name="stringLength"></param><param name="comparisonType"></param><returns>The zero based index || or -1 if not found</returns><exception cref="T:System.ArgumentNullException"/>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.FirstIndexOf(System.String,System.String,System.StringComparison)">
-            <summary>Get the zero based index of the first occurance of the given subString || or -1 if none found.</summary><param name="str"></param><param name="subString"></param><param name="comparisonType"></param><returns>The zero based index || or -1 if not found</returns>
+            <summary>Get the zero based index of the first occurance of the given <paramref name="subString"/> || or -1 if none found.</summary><param name="str"></param><param name="subString"></param><param name="comparisonType"></param><returns>The zero based index || or -1 if not found</returns><exception cref="T:System.ArgumentNullException"/>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.FirstIndexOf(System.String,System.String,System.Int32@,System.StringComparison)">
-            <summary>Get the zero based index of the first occurance of the given subString || or -1 if none found.</summary><param name="str"></param><param name="subString"></param><param name="stringLength"></param><param name="comparisonType"></param><returns>The zero based index || or -1 if not found</returns>
+            <summary>Get the zero based index of the first occurance of the given <paramref name="subString"/> || or -1 if none found.</summary><param name="str"></param><param name="subString"></param><param name="stringLength"></param><param name="comparisonType"></param><returns>The zero based index || or -1 if not found</returns><exception cref="T:System.ArgumentNullException"/>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.LastIndexOf(System.String,System.String,System.Int32@,System.StringComparison)">
-            <summary>Get the zero based index of the last occurance of the given subString || or -1 if none found.</summary><param name="str"></param><param name="subString"></param><param name="stringLength"></param><param name="comparisonType"></param><returns>The zero based index || or -1 if not found</returns>
+            <summary>Get the zero based index of the last occurance of the given <paramref name="subString"/> || or -1 if none found.</summary><param name="str"></param><param name="subString"></param><param name="stringLength"></param><param name="comparisonType"></param><returns>The zero based index || or -1 if not found</returns><exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:NQualityOfLife.Utils.StringExtensions.SplitAll(System.Collections.Generic.IList{System.String},System.String,System.StringSplitOptions)">
+            <summary></summary>
+            <param name="strings"></param><param name="options"></param><param name="separator"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Utils.StringExtensions.SplitAll(System.Collections.Generic.IList{System.String},System.String[])">
+            <summary></summary>
+            <param name="strings"></param><param name="separators"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Utils.StringExtensions.SplitAll(System.Collections.Generic.IList{System.String},System.StringSplitOptions,System.String[])">
+            <summary></summary>
+            <param name="strings"></param><param name="options"></param><param name="separators"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.Count(System.String,System.Char)">
             <summary>Count matching a characters</summary>
@@ -1733,6 +2326,18 @@
             <param name="str"></param>
             <param name="predicate"></param>
             <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.StringExtensions.ToStringSI(System.Single,System.Char)">
+            <summary></summary>
+            <param name="num"></param>
+            <param name="symbol">The symbol of the unit, such as 'g' 'm' 'Ω' etc</param>
+            <returns>The number formatted using the kilo, milli, micro etc prefixes.</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.StringExtensions.ToStringSI(System.Single,System.String)">
+            <summary></summary>
+            <param name="num"></param>
+            <param name="symbol">The symbol of the unit, such as 'g' 'm' 'Pa' 'Ω' etc</param>
+            <returns>The number formatted using the kilo, milli, micro etc prefixes.</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.Dot(System.String,System.String)">
             <summary>Concats 2 strings with a dot between them</summary>
@@ -1782,60 +2387,60 @@
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.NullOrEmpty(System.String,System.Boolean)">
             <summary></summary>
-            <param name="s">string</param>
-            <param name="treatSymbolsAsValue">Treat the null or empty symbols as if they were the values they represent</param>
-            <returns>True if the string is null or empty</returns>
+            <param name="s"><see cref="T:System.String"/></param>
+            <param name="treatSymbolsAsValue">Treat the <see langword="null"/> or empty symbols as if they were the values they represent</param>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> is <see langword="null"/> or empty</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.IsNullOrEmpty(System.String,System.Boolean)">
             <summary></summary>
-            <param name="s">string</param>
-            <param name="treatSymbolsAsValue">Treat the null or empty symbols as if they were the values they represent</param>
-            <returns>True if the string is null or empty</returns>
+            <param name="s"><see cref="T:System.String"/></param>
+            <param name="treatSymbolsAsValue">Treat the <see langword="null"/> or empty symbols as if they were the values they represent</param>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> is <see langword="null"/> or empty</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.IsNullOrEmpty(NQualityOfLife.Utils.IString,System.Boolean)">
             <summary></summary>
-            <param name="s">string</param>
+            <param name="s"><see cref="T:System.String"/></param>
             <param name="treatSymbolsAsValue">Treat the null or empty symbols as if they were the values they represent</param>
-            <returns>True if the string is null or empty</returns>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> is <see langword="null"/> or empty</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.IsNullOrEmpty(NQualityOfLife.Utils.IString,System.Int32@,System.Boolean)">
             <summary></summary>
-            <param name="s">string</param>
+            <param name="s"><see cref="T:System.String"/></param>
             <param name="length"></param>
-            <param name="treatSymbolsAsValue">Treat the null or empty symbols as if they were the values they represent</param>
-            <returns>True if the string is null or empty</returns>
+            <param name="treatSymbolsAsValue">Treat the <see langword="null"/> or empty symbols as if they were the values they represent</param>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> is <see langword="null"/> or empty</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.IsEmptySymbol(System.String)">
-            <summary>Is the given string the value of the empty symbol</summary>
+            <summary>Is the given <see cref="T:System.String"/> the value of the empty symbol</summary>
             <param name="s"></param><returns></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.IsNullSymbol(System.String)">
-            <summary>Is the given string the value of the null symbol</summary>
+            <summary>Is the given <see cref="T:System.String"/> the value of the <see langword="null"/> symbol</summary>
             <param name="s"></param><returns></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.IsNullOrEmpty(System.String,System.Int32@,System.Boolean)">
             <summary></summary>
             <param name="s"></param>
-            <param name="length">Will be -1 if string is null, else the Length of the string</param>
-            <param name="treatSymbolsAsValue">Treat the null or empty symbols as if they were the values they represent</param>
-            <returns>True if string is null or empty</returns>
+            <param name="length">Will be -1 if <see cref="T:System.String"/> is <see langword="null"/>, else the Length of the <see cref="T:System.String"/></param>
+            <param name="treatSymbolsAsValue">Treat the <see langword="null"/> or empty symbols as if they were the values they represent</param>
+            <returns><see langword="True"/> if <see cref="T:System.String"/> is <see langword="null"/> or empty</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.ReplaceLast(System.String,System.Char,System.Char)">
-            <summary>Iterates the input string in reverse and replaces the first found oldChar with newChar and returns the modified string</summary>
-            <param name="text">Input string</param>
-            <param name="oldChar">Replace last instance of this char</param>
-            <param name="newChar">Replace oldChar with this</param>
-            <returns>The input string with the last occurrence of oldChar replaced with newChar</returns>
+            <summary>Iterates the input <see cref="T:System.String"/> in reverse and replaces the first found <paramref name="oldChar"/> with <paramref name="newChar"/> and returns the modified <see cref="T:System.String"/></summary>
+            <param name="text">Input <see cref="T:System.String"/></param>
+            <param name="oldChar">Replace last instance of this <see cref="T:System.Char"/></param>
+            <param name="newChar">Replace <paramref name="oldChar"/> with this</param>
+            <returns>The input <see cref="T:System.String"/> with the last occurrence of <paramref name="oldChar"/> replaced with <paramref name="newChar"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.RemoveFirst(System.String)">
-            <summary>Removes the first character from the input string</summary>
+            <summary>Removes the first character from the input <see cref="T:System.String"/></summary>
             <param name="text"></param>
-            <returns>The input string with the first letter/char removed.</returns>
+            <returns>The input <see cref="T:System.String"/> with the first letter/<see cref="T:System.Char"/> removed.</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.RemoveLast(System.String)">
-            <summary>Removes the last character from the input string</summary>
+            <summary>Removes the last character from the input <see cref="T:System.String"/></summary>
             <param name="text"></param>
-            <returns>The input string with the last letter/char removed.</returns>
+            <returns>The input <see cref="T:System.String"/> with the last letter/<see cref="T:System.Char"/> removed.</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.Contains(System.String,System.Char,System.Int32@)">
             <summary>Checks if the input string contains the specific character - input string must not be null!</summary>
@@ -1862,10 +2467,10 @@
             <returns>True if the input string contains the character</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.ContainsAny(System.String,System.Char[])">
-            <summary>Checks if the input string contains ony of the specific characters - input string must not be null!</summary>
+            <summary>Checks if the input <see cref="T:System.String"/> contains ony of the specific characters - input <see cref="T:System.String"/> must not be <see langword="null"/>!</summary>
             <param name="text"></param>
             <param name="characters"></param>
-            <returns>True if the input string contains any of the characters</returns>
+            <returns><see langword="True"/> if the input <see cref="T:System.String"/> contains any of the characters</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.TrimAll(System.Collections.Generic.IList{System.String},System.Boolean)">
             <summary>Create a copy of the input strings with leading and trailing whitespace removed</summary>
@@ -1891,24 +2496,24 @@
             <returns></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.ContainsAny(System.String,System.String[])">
-            <summary>Checks if the provided string contains or matches any of the strings in the array.</summary>
+            <summary>Checks if the provided <see cref="T:System.String"/> contains or matches any of the strings in the array.</summary>
             <param name="text"></param>
             <param name="ofThese"></param>
-            <returns>True if the input matches or contains any of the provided strings. If input text or string array are null or empty; returns false.</returns>
+            <returns><see langword="True"/> if the input matches or contains any of the provided strings. || If input text or <see cref="T:System.String"/> array are <see langword="null"/> or empty; returns <see langword="False"/>.</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.ContainsAny(System.String,System.Collections.Generic.IList{System.String},System.String@)">
             <summary>Checks if the provided string contains or matches any of the strings in the array.</summary>
             <param name="text"></param>
             <param name="ofThese"></param>
             <param name="firstMatch"></param>
-            <returns>True if the input matches or contains any of the provided strings. If input text or string array are null or empty; returns false.</returns>
+            <returns><see langword="True"/> if the input matches or contains any of the provided strings. If input text or string array are <see langword="null"/> or empty; returns <see langword="false"/>.</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.ContainsAny(System.String,System.String@,System.String[])">
             <summary>Checks if the provided string contains or matches any of the strings in the array.</summary>
             <param name="text"></param>
             <param name="ofThese"></param>
             <param name="firstMatch"></param>
-            <returns>True if the input matches or contains any of the provided strings. If input text or string array are null or empty; returns false.</returns>
+            <returns>True if the input matches or contains any of the provided strings. If input text or string array are <see langword="null"/> or empty; returns false.</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.Contains(System.String,System.String,System.Int32)">
             <summary>Checks if the string contains the given substring</summary>
@@ -1921,126 +2526,126 @@
             <summary>Checks if the provided string contains or matches all of the strings in the array.</summary>
             <param name="text"></param>
             <param name="ofThese"></param>
-            <returns>True if the input matches or contains all of the provided strings. || If input text or string array are null or empty; returns false.</returns>
+            <returns>True if the input matches or contains all of the provided strings. || If input text or string array are <see langword="null"/> or empty; returns false.</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.ContainsAll(System.String,System.Char[])">
             <summary>Checks if the provided string contains or matches all of the chars in the array.</summary>
             <param name="text"></param>
             <param name="ofThese"></param>
-            <returns>True if the input string contains or matches all of the provided chars. || If input text or char array are null or empty; returns false.</returns>
+            <returns>True if the input string contains or matches all of the provided chars. || If input text or char array are <see langword="null"/> or empty; returns false.</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.EndsWith_Fast(System.String,System.String)">
             <summary>Checks if the provided string ends with the given substring</summary>
             <param name="text"></param><param name="with"></param>
-            <returns>False if any input is null, True if 'text' ends with 'with'</returns>
+            <returns>False if any input is <see langword="null"/>, True if 'text' ends with 'with'</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.StartsWith_Fast(System.String,System.String)">
             <summary></summary>
             <param name="text"></param>
             <param name="with"></param>
-            <returns>false if any input is null</returns>
+            <returns>false if any input is <see langword="null"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.StartsWith_Fast(System.String,System.String,System.String)">
             <summary></summary>
             <param name="text"></param>
             <param name="with"></param>
             <param name="or"></param>
-            <returns>always false if the input string is null or empty</returns>
+            <returns>always false if the input string is <see langword="null"/> or empty</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.LastSymbol(System.String)">
-            <summary>Returns the last char of a string, or '\0' if invalid string</summary>
+            <summary>Returns the last <see cref="T:System.Char"/> of a <see cref="T:System.String"/>, or '\0' if invalid <see cref="T:System.String"/></summary>
             <param name="text">text to check</param>
-            <returns>The last char of the provided string or empty char ('\0') if text is null or empty</returns>
+            <returns>The last <see cref="T:System.Char"/> of the provided <see cref="T:System.String"/> or empty <see cref="T:System.Char"/> ('\0') if text is <see langword="null"/> or empty</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.LastSymbolIs(System.String,System.Char)">
-            <summary>Checks if the last symbol (char) of a string is the provided char</summary>
+            <summary>Checks if the last symbol (<see cref="T:System.Char"/>) of a <see cref="T:System.String"/> is the provided <see cref="T:System.Char"/></summary>
             <param name="text">text to check</param>
-            <param name="lastSymbol">char that we are comparing</param>
-            <returns>True if the string ends with the provided char</returns>
+            <param name="lastSymbol"><see cref="T:System.Char"/> that we are comparing</param>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> ends with the provided <see cref="T:System.Char"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.LastSymbolIs(System.String,System.Char,System.Char)">
-            <summary>Checks if the last symbol (char) of a string is the provided char</summary>
+            <summary>Checks if the last symbol (<see cref="T:System.Char"/>) of a <see cref="T:System.String"/> is the provided <see cref="T:System.Char"/></summary>
             <param name="text">text to check</param>
-            <param name="lastSymbol">char that we are comparing</param>
+            <param name="lastSymbol"><see cref="T:System.Char"/> that we are comparing</param>
             <param name="or"></param>
-            <returns>True if the string ends with the provided char</returns>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> ends with the provided <see cref="T:System.Char"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.LastSymbolIs(System.String,System.Char,System.Char,System.Char)">
-            <summary>Checks if the last symbol (char) of a string is the provided char</summary>
+            <summary>Checks if the last symbol (<see cref="T:System.Char"/>) of a <see cref="T:System.String"/> is the provided <see cref="T:System.Char"/></summary>
             <param name="text">text to check</param>
-            <param name="lastSymbol">char that we are comparing</param>
+            <param name="lastSymbol"><see cref="T:System.Char"/> that we are comparing</param>
             <param name="or"></param>
             <param name="orThis"></param>
-            <returns>True if the string ends with the provided char</returns>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> ends with the provided <see cref="T:System.Char"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.FirstSymbol(System.String)">
-            <summary>Returns the first char of a string, or '\0' if invalid string</summary>
+            <summary>Returns the first <see cref="T:System.Char"/> of a <see cref="T:System.String"/>, or '\0' if invalid <see cref="T:System.String"/></summary>
             <param name="text">text to check</param>
-            <returns>The first char of the provided string or empty char ('\0') if text is null or empty</returns>
+            <returns>The first <see cref="T:System.Char"/> of the provided <see cref="T:System.String"/> or empty <see cref="T:System.Char"/> ('\0') if text is <see langword="null"/> or empty</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.FirstSymbolIs(System.String,System.Char)">
-            <summary>Checks if the first symbol (char) of a string is the provided char - a null or empty string will return false</summary>
-            <param name="text">text to check - a null or empty string will return false</param>
-            <param name="firstSymbol">char that we are comparing</param>
-            <returns>True if the string starts with the provided char - a null or empty string will return false</returns>
+            <summary>Checks if the first symbol (<see cref="T:System.Char"/>) of a <see cref="T:System.String"/> is the provided char - a <see langword="null"/> or empty <see cref="T:System.String"/> will return <see langword="false"/></summary>
+            <param name="text">text to check - a <see langword="null"/> or empty <see cref="T:System.String"/> will return <see langword="false"/></param>
+            <param name="firstSymbol"><see cref="T:System.Char"/> that we are comparing</param>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> starts with the provided <see cref="T:System.Char"/> - a <see langword="null"/> or empty <see cref="T:System.String"/> will return <see langword="false"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.FirstSymbolIs(System.String,System.Char,System.Char)">
-            <summary>Checks if the first symbol (char) of a string is the provided char - a null or empty string will return false</summary>
-            <param name="text">text to check - a null or empty string will return false</param>
-            <param name="firstSymbol">char that we are comparing</param>
+            <summary>Checks if the first symbol (<see cref="T:System.Char"/>) of a <see cref="T:System.String"/> is the provided <see cref="T:System.Char"/> - a <see langword="null"/> or empty <see cref="T:System.String"/> will return <see langword="false"/></summary>
+            <param name="text">text to check - a <see langword="null"/> or empty <see cref="T:System.String"/> will return <see langword="false"/></param>
+            <param name="firstSymbol"><see cref="T:System.Char"/> that we are comparing</param>
             <param name="or"></param>
-            <returns>True if the string starts with the provided char - a null or empty string will return false</returns>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> starts with the provided char - a <see langword="null"/> or empty <see cref="T:System.String"/> will return <see langword="false"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.FirstSymbolIs(System.String,System.Char,System.Char,System.Char)">
-            <summary>Checks if the first symbol (char) of a string is the provided char - a null or empty string will return false</summary>
-            <param name="text">text to check - a null or empty string will return false</param>
-            <param name="firstSymbol">char that we are comparing</param>
+            <summary>Checks if the first symbol (<see cref="T:System.Char"/>) of a <see cref="T:System.String"/> is the provided <see cref="T:System.Char"/> - a <see langword="null"/> or empty <see cref="T:System.String"/> will return <see langword="false"/></summary>
+            <param name="text">text to check - a <see langword="null"/> or empty <see cref="T:System.String"/> will return <see langword="false"/></param>
+            <param name="firstSymbol"><see cref="T:System.Char"/> that we are comparing</param>
             <param name="or"></param>
             <param name="orThis"></param>
-            <returns>True if the string starts with the provided char - a null or empty string will return false</returns>
+            <returns><see langword="True"/> if the <see cref="T:System.String"/> starts with the provided <see cref="T:System.Char"/> - a <see langword="null"/> or empty <see cref="T:System.String"/> will return <see langword="false"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.SubstringAfterLastOrFallback(System.String,System.Char,System.String)">
             <summary>Gets the substring after the last instance of the specified character.</summary>
             <param name="text"></param>
             <param name="afterThisChar"></param>
             <param name="fallback"></param>
-            <returns>The substring after the last instance of the specified char or 'fallback' if not found</returns>
+            <returns>The substring after the last instance of the specified <see cref="T:System.Char"/> or '<paramref name="fallback"/>' if not found</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.SubstringAfterLast(System.String,System.Char)">
             <summary>Gets the substring after the last instance of the specified character.</summary>
             <param name="text"></param>
-            <param name="afterThisChar">Get the substring after the first instance of this char</param>
-            <returns>The substring after the last instance of the specified char || or 'string.Empty' if not found || - Never null</returns>
+            <param name="afterThisChar">Get the substring after the first instance of this <see cref="T:System.Char"/></param>
+            <returns>The substring after the last instance of the specified <see cref="T:System.Char"/> || or '<see cref="F:System.String.Empty"/>' if not found || - Never <see langword="null"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.SubstringAfter(System.String,System.Char)">
             <summary>Gets the substring after the first instance of the specified character.</summary>
             <param name="text"></param>
             <param name="afterThisChar"></param>
-            <returns>The substring after the specified char || or 'string.Empty' if not found || - Never null</returns>
+            <returns>The substring after the specified <see cref="T:System.Char"/> || or '<see cref="F:System.String.Empty"/>' if not found || - Never <see langword="null"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.SubstringAfter(System.String,System.Int32,System.Int32)">
             <summary>Get the substring after the given index</summary>
             <param name="text"></param><param name="index"></param>
             <param name="textLength"></param>
-            <returns>The part of the input string after the given index || or string.Empty (with error) if out of bounds</returns>
+            <returns>The part of the input <see cref="T:System.String"/> after the given index || or <see cref="F:System.String.Empty"/> (with error) if out of bounds</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.SubstringWhile(System.String,System.Char[])">
             <summary>Get all the characters of the substring from start to end until the condition no longer mathes or it reaches the end of the input string</summary>
             <param name="text"></param>
             <param name="matchChars"></param>
-            <returns>The substring before the predicate returned false</returns>
+            <returns>The substring before the predicate returned <see langword="false"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.SubstringWhile(System.String,System.Predicate{System.Char})">
             <summary>Get all the characters of the substring from start to end until the condition no longer mathes or it reaches the end of the input string</summary>
             <param name="text"></param>
             <param name="predicate"></param>
-            <returns>The substring before the predicate returned false</returns>
+            <returns>The substring before the <paramref name="predicate"/> returned <see langword="false"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.SubstringBefore(System.String,System.Char)">
             <summary>Gets the substring before the first instance of the specified character.</summary>
             <param name="text"></param>
             <param name="beforeThisChar"></param>
-            <returns>The substring before the first found instance of the specified char || or 'string.Empty' if not found || - Never null</returns>
+            <returns>The substring before the first found instance of the specified char || or 'string.Empty' if not found || - Never <see langword="null"/></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.SubstringBeforeOrFallback(System.String,System.Char,System.String)">
             <summary>Gets the substring before the first instance of the specified character.</summary>
@@ -2064,6 +2669,7 @@
             <summary>Get the part of the input string before a specific index</summary>
             <param name="text"></param><param name="index">Get all the text before this index</param>
             <returns>The part of the given string before the given index - Excluding the char at the index - May throw an 'ArgumentOutOfRangeException'</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"/>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.SubstringInsideOf_Inclusive(System.String,System.String,System.String,System.StringComparison)">
             <summary>Gets the first substring that is inside the specified start and end strings - Including the start and end strings</summary>
@@ -2153,6 +2759,14 @@
             <param name="replacement">Replace the substring with this</param>
             <returns>The original string with the first found substring replaced || or the original text un-changed if the substring is not found</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.StringExtensions.Replace_AllSubstringsInsideOf_Inclusive(System.String,System.Char,System.Char,System.String)">
+            <summary>Replaces all the found substring that are inside the specified characters - Including the characters</summary>
+            <param name="text">Input text</param>
+            <param name="start">The first char of the substring to replace</param>
+            <param name="end">The last char of the substring to replace</param>
+            <param name="replacement">Replace all the found substring with this</param>
+            <returns>The original string with all the found substrings replaced || or the original text un-changed if none of the substrings were found</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.Replace(System.String,System.Int32,System.Int32,System.String,System.Int32)">
             <summary>Replaces a part of the string from start index to end index with a new value - (to = (from + with.Length - 1))</summary>
             <param name="text">Original string</param>
@@ -2161,6 +2775,8 @@
             <param name="with">New value to be placed starting and ending at the specified indexes</param>
             <param name="textLength"></param>
             <returns>The original string with the specified part replaced || - never null (returns null symbol if input text is null (with error logged))</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"/>
+            <exception cref="T:System.ArgumentNullException"/>
         </member>
         <member name="M:NQualityOfLife.Utils.StringExtensions.Replace(System.String,System.Int32,System.String)">
             <summary>Replace the character at the specified index with the given substring</summary>
@@ -2262,7 +2878,7 @@
             <param name="targetType"></param>
             <param name="nameSpaceDotType"></param>
             <param name="defaultNameSpace"></param>
-            <returns>True if the target type was valid and succesfully resolved</returns>
+            <returns>True if the target type was valid and successfully resolved</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Reflection_.Invoker.Validate_Final_String(System.String)">
             <summary>Checks for illegal characters or blacklisted namespaces etc</summary>
@@ -2276,7 +2892,7 @@
             <returns>false if the method is not allowed</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Reflection_.Invoker.Invoke_PropertyGet_Static(System.String,System.String,System.String,System.Boolean)">
-            <summary>Invoke a static propert getter</summary>
+            <summary>Invoke a static property getter</summary>
             <param name="type">The class containing the static property getter</param>
             <param name="propertyGet">The name of the property getter</param>
             <param name="defaultNameSpace"></param>
@@ -2326,15 +2942,15 @@
             <returns>True if the given method is recursive</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Reflection_.IsHarmonyPatchClass(System.Type)">
-            <summary>Is the given class a harmony path?</summary><param name="type"></param><returns>True if the class is a harmony patch</returns>
+            <summary>Is the given class a harmony patch?</summary><param name="type"></param><returns>True if the class is a harmony patch</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Reflection_.IsHarmonyPrefix(System.Reflection.MethodInfo)">
             <summary>Check if the given method is a harmony Prefix method inside a harmony patch class</summary>
-            <param name="method"></param><returns>True if isa harmony Prefix method</returns>
+            <param name="method"></param><returns>True if is a harmony Prefix method</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Reflection_.IsHarmonyPostfix(System.Reflection.MethodInfo)">
             <summary>Check if the given method is a harmony Prefix method inside a harmony patch class</summary>
-            <param name="method"></param><returns>True if isa harmony Postfix method</returns>
+            <param name="method"></param><returns>True if is a harmony Postfix method</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Reflection_.GetTypes_Safe(System.Reflection.Assembly)">
             <summary>Get Types from an Assembly, ReflectionTypeLoadExceptions are handled silently</summary>
@@ -2388,10 +3004,16 @@
         <member name="P:NQualityOfLife.Utils.Colors.BadColor">
             <summary>Will give the 'bad' color, will differ based on settings. Intended for color blind support etc...</summary>
         </member>
+        <member name="M:NQualityOfLife.Utils.Colors.SetTransparency(NQualityOfLife.IColorRGBA,NQualityOfLife.Ratio)">
+            <summary>1 is fully transparent (see trough) 0 is fully opaque</summary>
+            <param name="iColor"></param>
+            <param name="ratio">1 is fully transparent, 0 is opaque</param>
+            <returns></returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.Colors.SetTransparency(UnityEngine.Color,NQualityOfLife.Ratio)">
             <summary>1 is fully transparent (see trough) 0 is fully opaque</summary>
             <param name="color"></param>
-            <param name="ratio">1 is fully transparent, 0 is opague</param>
+            <param name="ratio">1 is fully transparent, 0 is opaque</param>
             <returns></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Colors.HexCodeToColor(System.String)">
@@ -2449,6 +3071,9 @@
             <summary>Convert a hex color code such as #FF15ABFF into its RGBA components. If the hex code doesn't have an Alpha component like in '#FF15AB', it will be returned as 255. - The input hex code can start with or without '#'</summary>
             <param name="hexCode">Valid inputs: '001122', '#112233', '#ff0000f9', 'FF12F0FF'</param>
             <returns>If input is null or empty => (0, 0, 0, 255)</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Colors.ColorToHexCode(UnityEngine.Color)">
+            <summary>Converts an UnityEngine.Color into a hex code such as '#FF1144FF'</summary><param name="color"></param><returns>A hex code such as '#FF1144FF'</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Colors.ColorToHex(UnityEngine.Color)">
             <summary>Converts an UnityEngine.Color into a hex code such as '#FF1144FF'</summary><param name="color"></param><returns>A hex code such as '#FF1144FF'</returns>
@@ -2632,7 +3257,7 @@
             <param name="modPackageId"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.Mods.WarnAboutSusAssemblies(Verse.Mod,Verse.ModMetaData,System.String)">
-            <summary>Scans the asseblies of the given mod for error supression or other things that are potentially concerning.</summary>
+            <summary>Scans the assemblies of the given mod for error supression or other things that are potentially concerning.</summary>
             <param name="fromMod"></param>
             <param name="modMetaData"></param>
             <param name="modPackageId"></param>
@@ -2645,7 +3270,7 @@
             <param name="modPackageId"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.Mods.WarnAboutSusMod(Verse.Mod,Verse.ModMetaData,System.String)">
-            <summary>Scans the asseblies of the given mod for error supression or other things that are potentially concerning.</summary>
+            <summary>Scans the assemblies of the given mod for error supression or other things that are potentially concerning.</summary>
             <param name="mod"></param>
             <param name="modMetaData"></param>
             <param name="modPackageId"></param>
@@ -2707,6 +3332,11 @@
             <param name="tangent"></param>
             <returns>Angle in radians whose tangent is the given 'tangent'</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.Math.Sqrt(System.Single)">
+            <summary>Get the square root of a number</summary>
+            <param name="value">Get the square root of this value</param>
+            <returns>The square root of the input number</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.Math.Interpolate(System.Single,System.Single,System.Single,System.Single,System.Single)">
             <summary>Get the expected value of Y at the given X</summary>
             <param name="from_X">X before target_X</param><param name="from_Y">Y value at from_X</param><param name="to_X">X after target_X</param><param name="to_Y">Y value at to_X</param><param name="target_X">The target X whose Y value we want to get</param>
@@ -2735,12 +3365,12 @@
         <member name="M:NQualityOfLife.Utils.Math.Contains(System.ValueTuple{System.Single,System.Single},System.Single)">
             <summary></summary>
             <param name="range"></param><param name="num"></param>
-            <returns>True if the given number is inside the min and max rang, inclusive</returns>
+            <returns>True if the given number is inside the min and max range, inclusive</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Math.Includes(System.ValueTuple{System.Single,System.Single},System.Single)">
             <summary></summary>
             <param name="range"></param><param name="num"></param>
-            <returns>True if the given number is inside the min and max rang, inclusive</returns>
+            <returns>True if the given number is inside the min and max range, inclusive</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Math.Contains_Inclusive(Verse.IntRange,System.Int32)">
             <summary></summary>
@@ -2778,11 +3408,13 @@
             <summary>Round to the closest int</summary>
             <param name="number"></param>
             <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="M:NQualityOfLife.Utils.Math.RoundToInt(System.Double)">
             <summary>Round to the closest int</summary>
             <param name="number"></param>
             <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="M:NQualityOfLife.Utils.Math.LargerOf(System.Int32,System.Int32)">
             <summary>Returns the larger value</summary>
@@ -2793,6 +3425,13 @@
             <summary>Returns the smaller value</summary>
             <param name="value"></param><param name="otherValue"></param>
             <returns>The smaller of the 2 values</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Math.LargerOf(UnityEngine.Rect,UnityEngine.Rect)">
+            <summary></summary>
+            <param name="rect"></param>
+            <param name="otherRect"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:NQualityOfLife.Utils.Math.LargerOf(System.Single,System.Single)">
             <summary>Returns the larger value</summary>
@@ -2866,6 +3505,10 @@
             <summary>Clamps the number to 0f-1f inclusive</summary>
             <param name="value"></param>
             <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Math.EqualsExact(System.Single,System.Single)">
+            <summary></summary><param name="f"></param><param name="ff"></param>
+            <returns>True if the two values are exactly equal, down to the bit level</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Math.Abs(System.Int32)">
             <summary>Get the absolute value</summary><param name="number"></param>
@@ -2956,31 +3599,36 @@
             <param name="maxItemsToGet"></param>
             <param name="predicate"></param>
             <returns></returns>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.NullReferenceException"/> If <paramref name="sourceSet" /> is <see langword="null"/></remarks>
         </member>
-        <member name="M:NQualityOfLife.Utils.Rand.SelectRandomSet``1(System.Collections.Generic.List{``0},System.Int32)">
-            <summary>If source list is smaller or equal to maxItemsToGet, returns a copy of the source list</summary>
+        <member name="M:NQualityOfLife.Utils.Rand.SelectRandomSet``1(System.Collections.Generic.ICollection{``0},System.Int32)">
+            <summary>if <paramref name="sourceSet" /> is smaller or equal to <paramref name="maxItemsToGet" />, returns a copy of the <paramref name="sourceSet" /> || else creates a new list with random members from the <paramref name="sourceSet" /></summary>
+            <typeparam name="T"></typeparam>
+            <param name="sourceSet"></param>
+            <param name="maxItemsToGet"></param>
+            <returns>A new list with randomly selected items from the <paramref name="sourceSet" /></returns>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.NullReferenceException"/> If <paramref name="sourceSet" /> is <see langword="null"/></remarks>
+        </member>
+        <member name="M:NQualityOfLife.Utils.Rand.SelectRandomSet``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>If source list is smaller or equal to maxItemsToGet, returns a copy of the source list || else creates a new list with random members from the source list</summary>
             <typeparam name="T"></typeparam>
             <param name="sourceSet"></param>
             <param name="maxItemsToGet"></param>
             <returns>A new list with randomly selected items from the source list</returns>
-        </member>
-        <member name="M:NQualityOfLife.Utils.Rand.SelectRandomSet``1(System.Collections.Generic.IReadOnlyList{``0},System.Int32)">
-            <summary>If source list is smaller or equal to maxItemsToGet, returns a copy of the source list</summary>
-            <typeparam name="T"></typeparam>
-            <param name="sourceSet"></param>
-            <param name="maxItemsToGet"></param>
-            <returns>A new list with randomly selected items from the source list</returns>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.NullReferenceException"/> If <paramref name="sourceSet" /> is <see langword="null"/></remarks>
         </member>
         <member name="M:NQualityOfLife.Utils.Rand.RemoveRandom``1(System.Collections.Generic.IList{``0},System.Int32)">
             <summary>Removes a random item from the list</summary>
             <typeparam name="T"></typeparam>
             <param name="set"></param><param name="setSize"></param>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.NullReferenceException"/> If <paramref name="set" /> is <see langword="null"/></remarks>
         </member>
         <member name="M:NQualityOfLife.Utils.Rand.SelectRandom``1(System.Collections.Generic.IList{``0},System.Int32)">
             <summary>Select a random element from the list - An empty set will error!</summary>
             <typeparam name="T"></typeparam><param name="set"></param>
             <param name="setSize">The known size of the list</param>
-            <returns>A random item from the list</returns>
+            <returns>A random item <typeparamref name="T" /> from the <paramref name="set" /></returns>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.ArgumentOutOfRangeException"/> If <paramref name="setSize" /> is &lt;= 0</remarks>
         </member>
         <member name="P:NQualityOfLife.Utils.Rand.Value">
             <summary>Random value between 0 and 1 inclusive</summary>
@@ -3148,11 +3796,18 @@
             <param name="rect"></param><param name="amount">pixels</param>
             <returns>The input rect squeezed</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.RectExtensions.SqueezeHorizontal(UnityEngine.Rect,UnityEngine.Rect,UnityEngine.Rect)">
+            <summary>Gets a rect between the given two</summary>
+            <param name="rect"></param>
+            <param name="left">The left part of the rect</param>
+            <param name="right">The right part of the rect</param>
+            <returns>Rect between the left and right parts</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.RectExtensions.Squeeze(UnityEngine.Rect,UnityEngine.Rect,UnityEngine.Rect)">
             <summary>Gets a rect between the given two</summary>
             <param name="rect"></param>
-            <param name="top">The top part of rect</param>
-            <param name="bottom">The bottom part of rect</param>
+            <param name="top">The top part of the rect</param>
+            <param name="bottom">The bottom part of the rect</param>
             <returns>Rect between the top and bottom parts</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.RectExtensions.Segment(UnityEngine.Rect,UnityEngine.Rect@,UnityEngine.Rect@,UnityEngine.Rect@,System.Single,System.Single,System.Boolean)">
@@ -3465,12 +4120,12 @@
             <returns>The region at the cell, or null if out of bounds or not valid type</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetZone(Verse.IntVec3,Verse.Map)">
-            <summary>Get the zone at the specifed cell</summary>
+            <summary>Get the zone at the specified cell</summary>
             <param name="c"></param><param name="map"></param>
             <returns></returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetThingList(Verse.IntVec3,Verse.Map,Verse.IntVec3)">
-            <summary>Get the things at the specifed cell</summary>
+            <summary>Get the things at the specified cell</summary>
             <param name="c"></param><param name="map"></param><param name="mapSize"></param>
             <returns>Thing list, not null</returns>
         </member>
@@ -3527,12 +4182,12 @@
             <returns>The first thing of type T at cell</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetThingListAt(Verse.Map,Verse.IntVec3)">
-            <summary>Get the things at the specifed cell</summary>
+            <summary>Get the things at the specified cell</summary>
             <param name="c"></param><param name="map"></param>
             <returns>Thing list, not null</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ZoneExtensions.GetThingList(Verse.IntVec3,Verse.Map)">
-            <summary>Get the things at the specifed cell</summary>
+            <summary>Get the things at the specified cell</summary>
             <param name="c"></param><param name="map"></param>
             <returns>Thing list, not null</returns>
         </member>
@@ -3734,6 +4389,16 @@
             <param name="t2"></param>
             <returns>The input as a string if its not null else: t2.OrNull() - Never null</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.OrNull(System.DateTime)">
+            <summary></summary>
+            <param name="dateTime"></param>
+            <returns>DD.MM.YYYY</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.FormatAsTime(System.DateTime)">
+            <summary></summary>
+            <param name="dateTime"></param>
+            <returns>DD.MM.YYYY</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.LogParamExtensions.OrNull(RimWorld.TechLevel)">
             <summary></summary>
             <param name="techLevel"></param>
@@ -3747,20 +4412,82 @@
         <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam(System.String,System.String)">
             <summary>Format the string in a method parameter format, intended to be used in log messages</summary><param name="t"></param><param name="paramName"></param><returns></returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(``0,System.String,System.String)">
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(``0,System.String,System.String,System.String)">
             <summary>Generic method for formatting objects for log messages</summary>
             <typeparam name="T"></typeparam>
             <param name="t"></param>
             <param name="type"></param>
             <param name="paramName"></param>
+            <param name="listType"></param>
             <returns></returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(System.Collections.Generic.List{``0},System.String,System.String)">
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(System.Collections.Generic.List{``0},System.String,System.String,System.String)">
             <summary>Format AsParam</summary>
             <typeparam name="T">The type of the list</typeparam>
             <param name="list">The list</param>
             <param name="type">The type of T. if null it will be auto resolved.</param>
             <param name="paramName">The custom name of the param, such as 'targets'. can be left null.</param>
+            <param name="listType"></param>
+            <returns>The input list formatted as a param.</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(``0[],System.String)">
+            <summary>Format AsParam</summary>
+            <typeparam name="T">The type of the array</typeparam>
+            <param name="array">The array</param>
+            <param name="paramName">The custom name of the param, such as 'targets'. can be left null.</param>
+            <returns>The input array formatted as a param.</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(``0[],System.String,System.String)">
+            <summary>Format AsParam</summary>
+            <typeparam name="T">The type of the array</typeparam>
+            <param name="array">The array</param>
+            <param name="type">The type of T. if null it will be auto resolved.</param>
+            <param name="paramName">The custom name of the param, such as 'targets'. can be left null.</param>
+            <returns>The input array formatted as a param.</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(NQualityOfLife.IListInterface{``0},System.String,System.String,System.String)">
+            <summary>Format AsParam</summary>
+            <typeparam name="T">The type of the list</typeparam>
+            <param name="list">The list</param>
+            <param name="type">The type of T. if null it will be auto resolved.</param>
+            <param name="paramName">The custom name of the param, such as 'targets'. can be left null.</param>
+            <param name="listType"></param>
+            <returns>The input list formatted as a param.</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(NQualityOfLife.OrderedList{``0},System.String,System.String,System.String)">
+            <summary>Format AsParam</summary>
+            <typeparam name="T">The type of the list</typeparam>
+            <param name="list">The list</param>
+            <param name="type">The type of T. if null it will be auto resolved.</param>
+            <param name="paramName">The custom name of the param, such as 'targets'. can be left null.</param>
+            <param name="listType"></param>
+            <returns>The input list formatted as a param.</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(NQualityOfLife.UnOrderedList{``0},System.String,System.String,System.String)">
+            <summary>Format AsParam</summary>
+            <typeparam name="T">The type of the list</typeparam>
+            <param name="list">The list</param>
+            <param name="type">The type of T. if null it will be auto resolved.</param>
+            <param name="paramName">The custom name of the param, such as 'targets'. can be left null.</param>
+            <param name="listType"></param>
+            <returns>The input list formatted as a param.</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(System.Collections.Generic.ICollection{``0},System.String,System.String,System.String)">
+            <summary>Format AsParam</summary>
+            <typeparam name="T">The type of the list</typeparam>
+            <param name="list">The list</param>
+            <param name="type">The type of T. if null it will be auto resolved.</param>
+            <param name="paramName">The custom name of the param, such as 'targets'. can be left null.</param>
+            <param name="listType"></param>
+            <returns>The input list formatted as a param.</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.LogParamExtensions.AsParam``1(System.Collections.Generic.IList{``0},System.String,System.String,System.String)">
+            <summary>Format AsParam</summary>
+            <typeparam name="T">The type of the list</typeparam>
+            <param name="list">The list</param>
+            <param name="type">The type of T. if null it will be auto resolved.</param>
+            <param name="paramName">The custom name of the param, such as 'targets'. can be left null.</param>
+            <param name="listType"></param>
             <returns>The input list formatted as a param.</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.EventExtensions.Undo(UnityEngine.Event)">
@@ -3987,27 +4714,26 @@
             <summary>Makes a copy of the list</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
-            <returns>A copy of the original list</returns>
+            <returns>A copy of the original list in the same order and with the same items || Never null</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ToList``1(System.Collections.Generic.List{``0},System.Int32,System.Int32)">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ToList``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)">
             <summary>Makes a copy of the list starting at the given index</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="startingFrom"></param>
             <param name="count"></param>
-            <returns>A copy of the original list</returns>
+            <returns>A new list with the elements from the input list starting at the specified index</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.ToList``1(System.Collections.Generic.List{``0})">
-            <summary>Makes a copy of the list</summary>
-            <typeparam name="T"></typeparam>
-            <param name="list"></param>
-            <returns>A copy of the original list</returns>
+            <summary>Makes a copy of the given list</summary>
+            <typeparam name="T"></typeparam><param name="list">The list to copy</param>
+            <returns>A copy of the original list in the same order and with the same items || Never null</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.ToList``1(``0[])">
             <summary>Makes a new list from the array</summary>
             <typeparam name="T"></typeparam>
             <param name="array"></param>
-            <returns>A new list with the same items as the source array</returns>
+            <returns>A new list with the same items in the same order as the source array</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.ToList``2(System.Collections.Generic.Dictionary{``0,``1})">
             <summary>Makes a copy of the list</summary>
@@ -4015,39 +4741,37 @@
             <param name="dictionary"></param>
             <returns>A copy of the original list</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.CountWhere``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.CountAllWhere``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
             <summary>Count how many items in the list match the given predicate</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="predicate"></param>
-            <returns></returns>
+            <returns>The count of how many elemets matched the predicate</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.Count``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
             <summary>Count how many items in the list match the given predicate</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="predicate"></param>
-            <returns></returns>
+            <returns>The count of items that matches the predicate</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.Count``1(System.Collections.Generic.IEnumerable{``0})">
-            <summary>Get the count of items</summary>
-            <typeparam name="T"></typeparam>
-            <param name="list"></param>
-            <returns></returns>
+            <summary>Get the count of items in the IEnumerable, tries to use the best count method or property available</summary>
+            <typeparam name="T"></typeparam><param name="list"></param><returns>How many items are in the IEnumerable</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.CountWhere``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.CountAllWhere``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
             <summary>Count how many items in the list match the given predicate</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="predicate"></param>
-            <returns></returns>
+            <returns>The count of items that matched the predicate</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.Count``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
             <summary>Count how many items in the list match the given predicate</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="predicate"></param>
-            <returns></returns>
+            <returns>The count of items that matched the predicate</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.CountTill``1(``0[],System.Int32,System.Predicate{``0})">
             <summary>Counts until the max value or end of the list.</summary>
@@ -4055,7 +4779,7 @@
             <param name="source"></param>
             <param name="maxCount">When to stop counting</param>
             <param name="predicate"></param>
-            <returns>Element count or maxCount if more elements than maxCount.</returns>
+            <returns>Element count or maxCount if more elements than maxCount. || -1 on error</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.CountTill``1(System.Collections.Generic.IEnumerable{``0},System.Int32,System.Predicate{``0})">
             <summary>Counts until the max value or end of the list.</summary>
@@ -4063,7 +4787,7 @@
             <param name="source"></param>
             <param name="maxCount">When to stop counting</param>
             <param name="predicate"></param>
-            <returns>Element count or maxCount if more elements than maxCount.</returns>
+            <returns>Element count or maxCount if more elements than maxCount. || -1 on error</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.CountTill``1(System.Collections.Generic.IList{``0},System.Int32,System.Predicate{``0})">
             <summary>Counts until the max value or end of the list.</summary>
@@ -4079,16 +4803,15 @@
             <param name="source"></param>
             <param name="maxCount">When to stop counting</param>
             <param name="predicate"></param>
-            <returns>Element count or maxCount if more elements than maxCount.</returns>
+            <returns>Element count or maxCount if more elements than maxCount. || -1 on error</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.CountTill``1(System.Collections.Generic.IList{``0},System.Int32,System.Predicate{``0},System.Int32)">
-            <summary>Counts until the max value or end of the list.</summary>
-            <typeparam name="T"></typeparam>
-            <param name="source"></param>
-            <param name="maxCount">When to stop counting</param>
+            <summary>Counts matching items until the max value or the end of the list.</summary>
+            <typeparam name="T"></typeparam><param name="source"></param>
+            <param name="maxCount">When to stop counting || must be greater than 0</param>
             <param name="predicate"></param>
             <param name="knownSize">The total size of the list</param>
-            <returns>Element count or maxCount if more elements than maxCount.</returns>
+            <returns>Matching element count or maxCount if more matching elements than maxCount. || -1 on error</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.CountTill``1(NQualityOfLife.IListInterface{``0},System.Int32,System.Predicate{``0},System.Int32)">
             <summary>Counts until the max value or end of the list.</summary>
@@ -4097,7 +4820,7 @@
             <param name="maxCount">When to stop counting</param>
             <param name="predicate"></param>
             <param name="knownSize">The total size of the list</param>
-            <returns>Element count or maxCount if more elements than maxCount.</returns>
+            <returns>Element count or maxCount if more elements than maxCount. || -1 on error</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.CountTill``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
             <summary>Counts until the max value or end of the list.</summary>
@@ -4136,7 +4859,7 @@
             <param name="maxCount">When to stop counting</param>
             <returns>Element count or maxCount if more elements than maxCount.</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.FindAll_ToArray``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.FindAllWhere_ToArray``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
             <summary></summary>
             <typeparam name="T"></typeparam>
             <param name="toArray"></param>
@@ -4156,6 +4879,7 @@
             <param name="list"></param>
             <param name="predicate"></param>
             <returns>A new list with all the members from the input list that matched the predicate</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.FindAll``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
             <summary></summary>
@@ -4163,6 +4887,7 @@
             <param name="list"></param>
             <param name="predicate"></param>
             <returns>A new list with all the members from the input list that matched the predicate</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.FindAll``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
             <summary></summary>
@@ -4170,13 +4895,46 @@
             <param name="list"></param>
             <param name="predicate"></param>
             <returns>A new list with all the members from the input list that matched the predicate</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.ToList``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
             <summary>Make a new list from the given collection where the items satisfy the predicate</summary>
             <typeparam name="T"></typeparam>
             <param name="iList"></param>
             <param name="where"></param>
-            <returns>The matching input elements to list</returns>
+            <returns>The matching input elements to a new list</returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ToDictionaryFrom``2(System.Collections.Generic.IList{``0},System.Collections.Generic.IList{``1})">
+            <summary></summary>
+            <typeparam name="K"></typeparam>
+            <typeparam name="V"></typeparam>
+            <param name="keys"></param>
+            <param name="values"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.Split``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IList{``0}@,System.Collections.Generic.IList{``0}@)">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+            <param name="iList"></param>
+            <param name="evens"></param>
+            <param name="odds"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.EvensToList``1(System.Collections.Generic.IList{``0})">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+            <param name="iList"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.OddsToList``1(System.Collections.Generic.IList{``0})">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+            <param name="iList"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.ToList``1(System.Collections.Generic.IList{``0},System.Func{``0,System.Int32,System.Boolean})">
             <summary>Make a new list from the given collection where the items satisfy the predicate, The int in the predicate is the index of the item</summary>
@@ -4184,6 +4942,7 @@
             <param name="iList"></param>
             <param name="where">Func&lt;T item, int index, bool mathes&gt;</param>
             <returns>The matching input elements to list</returns>
+            <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.ToList``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
             <summary>Make a new list from the given collection where the items satisfy the predicate</summary>
@@ -4211,10 +4970,6 @@
             <summary>Returns true if the collection is null or empty</summary><typeparam name="T"></typeparam><param name="iEnumerable"></param>
             <returns>True if the collection is null or has a Count() of 0</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.NullOrEmpty``1(System.Collections.Generic.IList{``0})">
-            <summary>Returns true if the list is null or empty</summary><typeparam name="T"></typeparam><param name="list"></param>
-            <returns>True if the list is null or has a Count of 0</returns>
-        </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.NullOrEmpty``1(``0[])">
             <summary>Returns true if the array is null or empty</summary><typeparam name="T"></typeparam><param name="array"></param>
             <returns>True if the array is null or has a Length of 0</returns>
@@ -4223,13 +4978,9 @@
             <summary>Returns true if the array is null or empty</summary><typeparam name="T"></typeparam><param name="array"></param>
             <returns>True if the array is null or has a Length of 0</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.NullOrEmpty``1(System.Collections.Generic.List{``0})">
-            <summary>Returns true if the list is null or empty</summary><typeparam name="T"></typeparam><param name="list"></param>
-            <returns>True if the list is null or has a Count of 0</returns>
-        </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.IsNullOrEmpty``1(System.Collections.Generic.IList{``0},System.Int32@)">
             <summary>Returns true if the list is null or empty</summary><typeparam name="T"></typeparam><param name="list"></param>
-            <param name="count"></param>
+            <param name="count">How many items the list has, null list will return 0 here</param>
             <returns>True if the list is null or has a Count of 0</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.IsNullOrEmpty``1(``0[],System.Int32@)">
@@ -4237,7 +4988,15 @@
             <param name="count"></param>
             <returns>True if the array is null or has a Length of 0</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.NullOrEmpty``1(System.Collections.Generic.List{``0})">
+            <summary>Returns true if the list is null or empty</summary><typeparam name="T"></typeparam><param name="list"></param>
+            <returns>True if the list is null or has a Count of 0</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.IsNullOrEmpty``1(System.Collections.Generic.List{``0})">
+            <summary>Returns true if the list is null or empty</summary><typeparam name="T"></typeparam><param name="list"></param>
+            <returns>True if the list is null or has a Count of 0</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.NullOrEmpty``1(System.Collections.Generic.IList{``0})">
             <summary>Returns true if the list is null or empty</summary><typeparam name="T"></typeparam><param name="list"></param>
             <returns>True if the list is null or has a Count of 0</returns>
         </member>
@@ -4283,6 +5042,10 @@
             <param name="count"></param>
             <returns>True if not null and has at least 1 item</returns>
         </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.Any``1(System.Collections.Generic.IList{``0})">
+            <summary></summary><typeparam name="T"></typeparam><param name="list"></param>
+            <returns>True if not null and has at least 1 item</returns>
+        </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.Any``1(System.Collections.Generic.List{``0})">
             <summary></summary><typeparam name="T"></typeparam><param name="list"></param>
             <returns>True if not null and has at least 1 item</returns>
@@ -4316,11 +5079,11 @@
             <returns>True if not null and has at least 1 item that satisfies the predicate</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.All``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
-            <summary></summary>
+            <summary>Checks if all the elements in the list match the given predicate</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="predicate"></param>
-            <returns>True if all elements in the list satisfy the condition</returns>
+            <returns>True if all elements in the list satisfy the condition || An empty list will always return true!</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.GetTypeWithHighestValueInDictionary``1(System.Collections.Generic.Dictionary{``0,System.UInt16},System.UInt16@)">
             <summary>Returns the T instance with the highest value in the input dictionary</summary>
@@ -4330,13 +5093,13 @@
             <returns>The instance of T with the highest value in the dictionary</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.IncrementOrAdd``1(System.Collections.Generic.Dictionary{``0,System.UInt16},``0,System.UInt16,System.UInt16)">
-            <summary>Increments the existing value or adds the start value</summary>
+            <summary>Increments the existing value or adds the start value if there was no existing value</summary>
             <typeparam name="K"></typeparam>
             <param name="dictionary"></param>
             <param name="key"></param>
             <param name="startValue">Set the value to this if there was no value for the key</param>
             <param name="incrementBy">Increment the existing value by this amount</param>
-            <returns>The existing value incremented, or the new value if there was no existing value</returns>
+            <returns>The existing value incremented || or the new value if there was no existing value || returns startValue on error</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.IncrementOrAdd``1(System.Collections.Generic.Dictionary{``0,System.Int32},``0,System.Int32,System.Int32)">
             <summary>Increments the existing value or adds the start value</summary>
@@ -4354,8 +5117,14 @@
             <param name="key"></param>
             <param name="value"></param>
         </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.AddSafe``1(System.Collections.Generic.IList{``0},``0[])">
+            <summary>Adds the new items that don't already exist in the list</summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <param name="range"></param>
+        </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.AddSafe``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IList{``0})">
-            <summary>Adds the new item only if it doesn't already exist</summary>
+            <summary>Adds the new item only if it doesn't already exist in the list</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="range"></param>
@@ -4374,28 +5143,28 @@
             <param name="value">New value for the key</param>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.SetOrAdd``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1)">
-            <summary>Set the value of an existing entry or add new entry with the provided value</summary>
+            <summary>Set the value of an existing entry || or add new entry with the provided value if there was no existing entry</summary>
             <typeparam name="K"></typeparam><typeparam name="V"></typeparam>
             <param name="dictionary"></param>
             <param name="key"></param>
-            <param name="value">New value for the key</param>
+            <param name="value">The new value for the key to set</param>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.GetAndSetSafe``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1,``1@)">
             <summary>Gets the existing value from the dictionary and writes the new value</summary>
-            <typeparam name="K"></typeparam><typeparam name="V"></typeparam>
+            <typeparam name="K">The type of the keys</typeparam><typeparam name="V">The type of the values</typeparam>
             <param name="dictionary"></param>
-            <param name="key"></param>
+            <param name="key">Get the old value of this key, and set a new value</param>
             <param name="newValue">The new value to add or set</param>
-            <param name="oldValue">The old value if it was found, or null</param>
-            <returns>True if existing value was in the dictionary, false if it was added now - also returns true on error</returns>
+            <param name="oldValue">The old value if it was found, || or null if there was no old value || will never be null if method returned true</param>
+            <returns>True if existing value was in the dictionary, || false if it was added now || returns false on error</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.GetOrAdd``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1)">
-            <summary>Gets the value from the dictionary, or adds the provided value</summary>
-            <typeparam name="K"></typeparam><typeparam name="V"></typeparam>
-            <param name="dictionary"></param>
-            <param name="key"></param>
+            <summary>Gets the value from the dictionary, || or adds the provided value if there was no existing value</summary>
+            <typeparam name="K">The type of the keys</typeparam><typeparam name="V">The type of the values</typeparam>
+            <param name="dictionary">The dictionary that we are getting or adding the value from</param>
+            <param name="key">The key whose value to add or get</param>
             <param name="value">The new value to add if there is no existing value</param>
-            <returns>The existing value || or the provided value if there was no existing value, || returns the new value on error</returns>
+            <returns>The existing value if it exists || or the provided value if there was no existing value, || returns the new value on error</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.GetTypeWithMostDuplicates``1(System.Collections.Generic.IList{``0},System.UInt16@)">
             <summary>Returns the T instance with the highest number of duplicates in the input list</summary>
@@ -4415,17 +5184,37 @@
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="otherList"></param>
-            <returns>The input list</returns>
+            <returns>The input list after the merge</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.FirstItems``2(NQualityOfLife.UnOrderedList{System.ValueTuple{``0,``1}})">
+            <summary>Gets the first items in a tuple list</summary>
+            <typeparam name="T"></typeparam><typeparam name="B"></typeparam><param name="tupleList"></param>
+            <returns>A new list with the first items from the input tuple list - The returned list has a capacity equal to the size of the input list</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.SecondItems``2(NQualityOfLife.UnOrderedList{System.ValueTuple{``0,``1}})">
+            <summary>Gets the second items in a tuple list</summary>
+            <typeparam name="T"></typeparam><typeparam name="B"></typeparam><param name="tupleList"></param>
+            <returns>A new list with the second items from the input tuple list - The returned list has a capacity equal to the size of the input list</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.FirstItems``2(NQualityOfLife.OrderedList{System.ValueTuple{``0,``1}})">
+            <summary>Gets the first items in a tuple list</summary>
+            <typeparam name="T"></typeparam><typeparam name="B"></typeparam><param name="tupleList"></param>
+            <returns>A new list with the first items from the input tuple list - The returned list has a capacity equal to the size of the input list</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.SecondItems``2(NQualityOfLife.OrderedList{System.ValueTuple{``0,``1}})">
+            <summary>Gets the second items in a tuple list</summary>
+            <typeparam name="T"></typeparam><typeparam name="B"></typeparam><param name="tupleList"></param>
+            <returns>A new list with the second items from the input tuple list - The returned list has a capacity equal to the size of the input list</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.FirstItems``2(System.Collections.Generic.IList{System.ValueTuple{``0,``1}})">
             <summary>Gets the first items in a tuple list</summary>
             <typeparam name="T"></typeparam><typeparam name="B"></typeparam><param name="tupleList"></param>
-            <returns>A new list with the first items from the input tuple list - The returned list has a capacity equal to the size ot the input list</returns>
+            <returns>A new list with the first items from the input tuple list - The returned list has a capacity equal to the size of the input list</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.SecondItems``2(System.Collections.Generic.IList{System.ValueTuple{``0,``1}})">
             <summary>Gets the second items in a tuple list</summary>
             <typeparam name="T"></typeparam><typeparam name="B"></typeparam><param name="tupleList"></param>
-            <returns>A new list with the second items from the input tuple list - The returned list has a capacity equal to the size ot the input list</returns>
+            <returns>A new list with the second items from the input tuple list - The returned list has a capacity equal to the size of the input list</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.Deconstruct``1(System.Collections.Generic.KeyValuePair{``0,System.UInt16},``0@,System.UInt16@)">
             <summary>KeyValuePair deconstruct for a generic key and ushort</summary>
@@ -4455,6 +5244,12 @@
             <param name="iListRef"></param>
             <param name="item"></param>
             <returns>The amount of items removed</returns>
+        </member>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.RemoveLastSafe``1(System.Collections.Generic.IList{``0})">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <returns>True if there was something to remove</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.RemoveLast``1(System.Collections.Generic.IList{``0})">
             <summary>Remove the last element from the list - a null or empty list will cause an exception</summary>
@@ -4495,38 +5290,43 @@
             <param name="additionalEqualityComparer"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.FirstOrDefault``1(``0[],System.Predicate{``0})">
-            <summary>First match in the array or the 'default' value of the type 'T'</summary>
+            <summary>First match in the array or the '<see langword="default"/>' value of the type '<typeparamref name="T"/>'</summary>
             <typeparam name="T"></typeparam><param name="array"></param><param name="predicate"></param>
-            <returns>The first found thing that matches the predicate, or default if none</returns>
+            <returns>The first found thing that matches the predicate, or <see langword="default"/> if none</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.FirstOrDefault``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
             <summary></summary>
             <typeparam name="T"></typeparam><param name="list"></param><param name="predicate"></param>
-            <returns>The first found thing that matches the predicate, or default if none</returns>
+            <returns>The first found thing that matches the <paramref name="predicate" />, or <see langword="default"/> if none</returns>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.NullReferenceException"/> If <paramref name="list" /> is <see langword="null"/></remarks>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.FirstOrDefault``1(System.Collections.Generic.List{``0},System.Predicate{``0})">
             <summary></summary>
             <typeparam name="T"></typeparam><param name="list"></param><param name="predicate"></param>
-            <returns>The first found thing that matches the predicate, or default if none</returns>
+            <returns>The first found thing that matches the <paramref name="predicate" />, or <see langword="default"/> if none</returns>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.NullReferenceException"/> If <paramref name="list" /> is <see langword="null"/></remarks>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.FirstIndexOf``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
-            <summary>Get the index of the first found match in the list</summary>
+            <summary>Get the index of the first found match in the list || or -1 if there were no matches</summary>
             <typeparam name="T"></typeparam><param name="list"></param><param name="predicate"></param>
-            <returns>The index of the first found thing that matches the predicate, or -1 if none</returns>
+            <returns>The index of the first found thing that matches the <paramref name="predicate" />, or -1 if none</returns>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.NullReferenceException"/> If <paramref name="list" /> or <paramref name="predicate" /> is <see langword="null"/></remarks>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.FirstIndexOf``1(System.Collections.Generic.IList{``0},``0)">
             <summary></summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="match"></param>
-            <returns>The index of the first found thing that equals the predicate, or -1 if none</returns>
+            <returns>The index of the first found thing that equals the given item, or -1 if none</returns>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.NullReferenceException"/> If <paramref name="list" /> is <see langword="null"/></remarks>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.LastIndexOf``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
             <summary></summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="predicate"></param>
-            <returns>The index of the last found thing that matches the predicate, or -1 if none</returns>
+            <returns>The index of the last found thing that matches the <paramref name="predicate" />, or -1 if none</returns>
+            <remarks>Will <see cref="T:NQualityOfLife.Utils.Log"/> (not <see langword="throw"/>) a <see cref="T:System.NullReferenceException"/> If <paramref name="list" /> or <paramref name="predicate" /> is <see langword="null"/></remarks>
         </member>
         <member name="M:NQualityOfLife.Utils.ListExtensions.RemoveDuplicates_ToList``1(System.Collections.Generic.IList{``0})">
             <summary>Remove duplicates so that only one of each item is on the list</summary>
@@ -4551,64 +5351,64 @@
             <param name="ofThese"></param>
             <returns>True if any of the elements are in both lists.</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAny``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
-            <summary>Checks if the list contains any elements that satisfy the predicate</summary>
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAnyWhere``1(System.Collections.Generic.IList{``0},System.Predicate{``0})">
+            <summary>Checks if the list contains any elements that satisfy the <paramref name="predicate" /></summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="predicate"></param>
-            <returns>True if any of the elements satisfy the predicate</returns>
+            <returns><see langword="True"/> if any of the elements satisfy the <paramref name="predicate" /></returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAny``1(``0[],System.Predicate{``0})">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAnyWhere``1(``0[],System.Predicate{``0})">
             <summary>Checks if the array contains any elements that satisfy the predicate</summary>
             <typeparam name="T"></typeparam>
             <param name="array"></param>
             <param name="predicate"></param>
-            <returns>True if any of the elements satisfy the predicate</returns>
+            <returns><see langword="True"/> if any of the elements satisfy the predicate</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAny``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IList{``0},``0@)">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAnyWhere``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IList{``0},``0@)">
             <summary>Checks if the list contains any of the elements in the second list.</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="ofThese"></param>
             <param name="firstMatch"></param>
-            <returns>True if any of the elements are in both lists.</returns>
+            <returns><see langword="True"/> if any of the elements are in both lists.</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAny(System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{System.String},System.String@)">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAnyWhere(System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{System.String},System.String@)">
             <summary>Checks if the list contains any of the elements in the second list.</summary>
             <param name="list"></param>
             <param name="ofThese"></param>
             <param name="firstMatch"></param>
-            <returns>True if any of the elements are in both lists.</returns>
+            <returns><see langword="True"/> if any of the elements are in both lists.</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAny``1(System.Collections.Generic.List{``0},``0[])">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAnyOf``1(System.Collections.Generic.List{``0},``0[])">
             <summary>Checks if the list contains any of the elements in the second list.</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="ofThese"></param>
-            <returns>True if any of the elements are in both lists.</returns>
+            <returns><see langword="True"/> if any of the elements are in both lists.</returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.IsAny``1(``0,System.Collections.Generic.IList{``0})">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.IsAnyOf``1(``0,System.Collections.Generic.IList{``0})">
             <summary> </summary>
             <typeparam name="T"></typeparam>
             <param name="value"></param>
             <param name="ofThese"></param>
-            <returns>Returns false if any input is null</returns>
+            <returns>Returns <see langword="False"/> if any input is <see langword="null"/></returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAll``1(System.Collections.Generic.IList{``0},``0[])">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAllOf``1(System.Collections.Generic.IList{``0},``0[])">
             <summary>Checks if the first list contains all the elements in the second list.</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="ofThese"></param>
             <returns></returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAll``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IList{``0})">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAllOf``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IList{``0})">
             <summary>Checks if the first list contains all the elements in the second list.</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
             <param name="ofThese"></param>
             <returns></returns>
         </member>
-        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAll``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IList{``0})">
+        <member name="M:NQualityOfLife.Utils.ListExtensions.ContainsAllOf``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IList{``0})">
             <summary>Checks if the first list contains all the elements in the second list.</summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
@@ -4701,14 +5501,14 @@
             <param name="newValue"></param>
             <param name="oldValue">Node must have this value to be matched</param>
             <param name="debugLogging"></param>
-            <returns>The input text with the specifed node replaced</returns>
+            <returns>The input text with the specified node replaced</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.File_.UpdateAboutXML(NQualityOfLife.FilePath,System.String,System.Boolean)">
             <summary></summary>
             <param name="folderPath"></param>
             <param name="fileName"></param>
             <param name="debugLogging"></param>
-            <returns>True if was succesfully update or no update needed, false if update failed</returns>
+            <returns>True if was successfully updated or no update needed, || false if update failed</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.File_.IncrementVersion(System.String,System.String@)">
             <summary></summary>
@@ -4740,7 +5540,7 @@
             <returns>True if valid, else false</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.File_.ValidateXMLFile(NQualityOfLife.FilePath,System.Boolean,System.Boolean)">
-            <summary>Checks the validity of the path srting, if it ends with an xml file, if the file exists, and has a valid xml header</summary>
+            <summary>Checks the validity of the path string, if it ends with an xml file, if the file exists, and has a valid xml header</summary>
             <param name="filePath">The full file path of the target file</param>
             <param name="tolerateMissingXMLDeclaration">Xml files should always start with an xml declaration, such as: '&lt;?xml version="1.0" encoding="utf-8" ?&gt;' but this can sometimes be missing. Set this to true to tolerate missing xml declaration.</param>
             <param name="isNewFile"></param>
@@ -4906,13 +5706,13 @@
             <summary>Log a message if the message has changed</summary><param name="message"></param><param name="type"></param><param name="methodName"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.Warning(System.String,System.String,Verse.LookTargets)">
-            <summary>Log a warning with the method details and look targets</summary><param name="message"></param><param name="method"></param><param name="lookTargets"></param>
+            <summary>Log a warning with the method details and <paramref name="lookTargets"/></summary><param name="message"></param><param name="method"></param><param name="lookTargets"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.Warning(System.String,NQualityOfLife.Utils.Log.LogMode,System.String,Verse.LookTargets)">
-            <summary>Log a warning with the given log mode - Logs method name be defuly using the '(omit)' resolve mode</summary><param name="message"></param><param name="logMode"></param><param name="method"></param><param name="lookTargets"></param>
+            <summary>Log a warning with the given <paramref name="logMode"/> - Logs method name by default using the '(omit)' resolve mode</summary><param name="message"></param><param name="logMode"></param><param name="method"></param><param name="lookTargets"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.Warning(System.String,NQualityOfLife.Utils.Log.LogMode,Verse.LookTargets,System.String)">
-            <summary>Log warning message with look targets and visible method name</summary><param name="message"></param><param name="logMode"></param><param name="lookTargets"></param><param name="method"></param>
+            <summary>Log warning message with <paramref name="lookTargets"/> and visible method name</summary><param name="message"></param><param name="logMode"></param><param name="lookTargets"></param><param name="method"></param>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.Warning(System.String)">
             <summary>Log a warning with message only</summary><param name="message"></param>
@@ -4953,7 +5753,7 @@
             <param name="lookTargets"></param><returns>false</returns>
         </member>
         <member name="M:NQualityOfLife.Utils.Log.Error_InvalidInput``1(System.String,System.String)">
-            <summary>Log an error and return the default value of the specifed type</summary>
+            <summary>Log an error and return the default value of the specified type</summary>
             <typeparam name="R"></typeparam>
             <param name="parameter"></param>
             <param name="method"></param>
@@ -5137,6 +5937,9 @@
             <summary>Used to represent a null value in log messages etc...</summary>
         </member>
         <member name="F:NQualityOfLife.Utils.Common.Strings.emptySymbol">
+            <summary>Used to represent an empty string in log messages etc...</summary>
+        </member>
+        <member name="F:NQualityOfLife.Utils.Common.Strings.emptySymbolForceLowerCase">
             <summary>Used to represent an empty string in log messages etc...</summary>
         </member>
         <member name="F:NQualityOfLife.Utils.Common.Strings.newLine">
@@ -5511,10 +6314,105 @@
             <param name="getTodoList"></param>
             <param name="translationScanTime"></param>
         </member>
-        <member name="M:NQualityOfLife.IListInterface`1.ToList(System.Predicate{`0})">
-            <summary>Make a new list from the given collection where the items satisfy the predicate</summary>
+        <member name="T:NQualityOfLife.IListInterface`1">
+            <summary>Interface for lists and other collections</summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.SetInternalData(System.Collections.Generic.ICollection{`0})">
+            <summary>Set the internal <paramref name="data" /> of this list to the given values</summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.CountAllWhere(System.Predicate{`0})">
+            <summary>Count how many items on the list match the <paramref name="predicate" /></summary>
+            <param name="predicate"></param><returns>The count of items that matched the <paramref name="predicate" /></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.CountTill(System.Int32,System.Predicate{`0})">
+            <summary>Count all the matching items until the <paramref name="maxCount" /> or the end of the list</summary>
+            <param name="maxCount"></param>
+            <param name="predicate"></param><returns>The count of items that matched the <paramref name="predicate" /></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.Remove(`0,System.Int32)">
+            <summary>Remove the specified <paramref name="amount" /> of the <paramref name="item" /> || or until there are none left.</summary>
+            <param name="item"></param>
+            <param name="amount">The amount of items to remove.</param>
+            <returns>The amount of items removed</returns>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.RemoveAll(`0)">
+            <summary>Remove all the instances of the given <paramref name="item" /></summary>
+            <param name="item"></param>
+            <returns>The amount of items removed</returns>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.RemoveAllWhere(System.Predicate{`0})">
+            <summary>Remove all items that match the given <paramref name="where" /> <see cref="T:System.Predicate`1"/></summary>
+            <param name="where">Remove all items that match this <see cref="T:System.Predicate`1"/></param>
+            <returns>The amount of items removed</returns>
+            <exception cref="T:System.ArgumentNullException">If predicate is <see langword="null"/></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.ToArray">
+            <summary>Create an array from the list</summary>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.ToArray(System.Int32,System.Int32)">
+            <summary></summary>
+            <param name="startingFrom">Add the items from this <see cref="T:NQualityOfLife.IListInterface`1"/> starting at this index</param>
+            <param name="count">How many items to add to the array</param>
+            <returns>An array with the items from this <see cref="T:NQualityOfLife.IListInterface`1"/>, starting at <paramref name="startingFrom" /></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.FormatAsString(NQualityOfLife.Utils.Common.FormatMode,NQualityOfLife.Utils.Common.DisplayModeFlags)">
+            <summary></summary>
+            <param name="formatMode"></param>
+            <param name="displayMode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.Any">
+            <summary></summary>
+            <returns><see langword="True"/> if the <see cref="T:NQualityOfLife.IListInterface`1"/> has any items</returns>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.Last">
+            <summary>Get the last item on the <see cref="T:NQualityOfLife.IListInterface`1"/></summary><returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.First">
+            <summary>Get the first item of this <see cref="T:NQualityOfLife.IListInterface`1"/></summary><returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.AddRange(System.Collections.Generic.IList{`0})">
+            <summary></summary>
+            <param name="range"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.AddSafe(`0)">
+            <summary>Add the value only if it doesn't already exist in the <see cref="T:NQualityOfLife.IListInterface`1"/></summary><param name="value">The item to add</param><returns><see langword="true"/> if the item was added. || <see langword="false"/> if the item was not added</returns>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.ContainsAll(`0[])">
+            <summary></summary><param name="ofThese"></param>
+            <returns><see langword="True"/> if this <see cref="T:NQualityOfLife.IListInterface`1"/> contains all the given items (<paramref name="ofThese" />)</returns>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.ContainsAll(System.Collections.Generic.IList{`0})">
+            <summary></summary><param name="ofTheseList"></param>
+            <returns><see langword="True"/> if this <see cref="T:NQualityOfLife.IListInterface`1"/> contains all the items in the given <see cref="T:System.Collections.Generic.IList`1"/> (<paramref name="ofTheseList" />)</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.FirstIndexOf(System.Predicate{`0})">
+            <summary>Get the index of the first found match in the list || or -1 if there were no matches</summary>
+            <param name="predicate"></param>
+            <returns>The index of the first found thing that matches the <paramref name="predicate"/> ||, or -1 if none</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.LastIndexOf(System.Predicate{`0})">
+            <summary>Get the index of the last found match in the list || or -1 if there were no matches</summary>
+            <param name="predicate"></param>
+            <returns>The index of the last found thing that matches the <paramref name="predicate"/> ||, or -1 if none</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:NQualityOfLife.IListInterface`1.ToListWhere(System.Predicate{`0})">
+            <summary>Make a new list from the given collection where the items satisfy the <paramref name="where"/> <see cref="T:System.Predicate`1"/></summary>
             <param name="where"></param>
             <returns>The matching input elements to list</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:NQualityOfLife.IListInterface`1.ToList">
             <summary>Make a copy of the list</summary>
@@ -5524,54 +6422,71 @@
             <param name="startingFrom">Start copying the list from this index</param>
             <param name="count">How many items to get at the maximum</param>
             <returns>A copy of the original list starting at the given index</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
-        <member name="M:NQualityOfLife.IListInterface`1.CountWhere(System.Predicate{`0})">
-            <summary>Count all the matching items</summary>
-            <param name="predicate"></param><returns></returns>
+        <member name="T:NQualityOfLife.IListInterfaceData`2">
+            <summary>Extension to the base IListInterface, Specifies the type of the internal data list</summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TInternalDataList">The type of the internal list that stores the data</typeparam>
         </member>
-        <member name="M:NQualityOfLife.IListInterface`1.CountTill(System.Int32,System.Predicate{`0})">
-            <summary>Count all the matching items untill the max count or the end of the list</summary>
-            <param name="maxCount"></param>
-            <param name="predicate"></param><returns></returns>
+        <member name="P:NQualityOfLife.IListInterfaceData`2.InternalData">
+            <summary>The data stored inside the IListInterface</summary>
         </member>
-        <member name="M:NQualityOfLife.IListInterface`1.Remove(`0,System.Int32)">
-            <summary>Remove the specified amount of the item || or until there are none left.</summary>
-            <param name="item"></param>
-            <param name="amount">The amount of items to remove.</param>
-            <returns>The amount of items removed</returns>
+        <member name="T:NQualityOfLife.IListInterfaceType`2">
+            <summary>Extension to the base IListInterface, Specifies the type of the list</summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TListType">The type of the list that implements this interface</typeparam>
         </member>
-        <member name="M:NQualityOfLife.IListInterface`1.RemoveAll(`0)">
-            <summary>Remove all the instances of the given item</summary>
-            <param name="item"></param>
-            <returns>The amount of items removed</returns>
+        <member name="M:NQualityOfLife.IListInterfaceType`2.ToListWhere(System.Predicate{`0})">
+            <summary>Make a new list from the given collection where the items satisfy the predicate</summary>
+            <param name="where"></param>
+            <returns>The matching input elements to list</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:NQualityOfLife.IListInterface`1.ToArray">
-            <summary>Create an array from the list</summary>
+        <member name="M:NQualityOfLife.IListInterfaceType`2.ToList">
+            <summary>Make a copy of the list</summary>
+        </member>
+        <member name="M:NQualityOfLife.IListInterfaceType`2.ToList``1">
+            <summary>Make a copy of the list in a different list format</summary>
+        </member>
+        <member name="M:NQualityOfLife.IListInterfaceType`2.ToList``1(System.Int32,System.Int32)">
+            <summary></summary>
+            <typeparam name="TList"></typeparam>
+            <param name="startingFrom"></param>
+            <param name="count"></param>
             <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
-        <member name="M:NQualityOfLife.IListInterface`1.Last">
-            <summary>Get the last item on the list</summary><returns></returns>
+        <member name="M:NQualityOfLife.IListInterfaceType`2.ToList(System.Int32,System.Int32)">
+            <summary>Makes a copy of the list starting at the given index</summary>
+            <param name="startingFrom">Start copying the list from this index</param>
+            <param name="count">How many items to get at the maximum</param>
+            <returns>A copy of the original list starting at the given index</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
-        <member name="M:NQualityOfLife.IListInterface`1.First">
-            <summary>Get the first item</summary><returns></returns>
+        <member name="P:NQualityOfLife.OrderedList`1.Item(System.Int32)">
+            <summary></summary>
+            <param name="index"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="M:NQualityOfLife.OrderedList`1.Add(`0)">
-            <summary>Add the given item to the end of the list</summary>
+            <summary>Add the given <paramref name="item"/> to the end of the <see cref="T:NQualityOfLife.OrderedList`1"/> list</summary>
             <param name="item"></param>
         </member>
         <member name="M:NQualityOfLife.OrderedList`1.Remove(`0)">
-            <summary>Remove the given item</summary>
+            <summary>Remove the given <paramref name="item"/></summary>
             <param name="item"></param>
-            <returns>True if the item was successfully removed.</returns>
+            <returns><see langword="True"/> if the <paramref name="item"/> was successfully removed.</returns>
         </member>
         <member name="M:NQualityOfLife.OrderedList`1.RemoveAt(System.Int32)">
-            <summary>Remove the item at the given index from the list</summary>
-            <param name="index"></param>
+            <summary>Remove the item at the given <paramref name="index"/> from the list</summary>
+            <param name="index">Remove the item at this <paramref name="index"/> || Must be above -1 and below the size of the list</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
-        <member name="M:NQualityOfLife.UnOrderedList`1.Insert(System.Int32,`0)">
-            <summary>Not supported</summary>
-            <param name="index"></param>
-            <param name="item"></param>
+        <member name="M:NQualityOfLife.OrderedList`1.IndexOf(`0)">
+            <summary>Get the index of the given <paramref name="item"/></summary><param name="item"></param>
+            <returns>the zero based index of the <paramref name="item"/> || or -1 if the item was not found in the list</returns>
         </member>
         <member name="M:NQualityOfLife.UnOrderedList`1.Remove(`0)">
             <summary>Remove the given item, || (The last item on the list will replace the given items index, unless the given index is the last item)</summary>
@@ -5582,8 +6497,24 @@
             <summary>Remove the item at the given index from the list. || (the last item on the list will be moved to this index, unless the given index is the last item)</summary>
             <param name="index"></param>
         </member>
+        <member name="T:NQualityOfLife.IInterface">
+            <summary>Parent interface for all interfaces in NQualityOfLife</summary>
+        </member>
+        <member name="T:NQualityOfLife.IInverse`2">
+            <summary>A pair of values that are the inverse of each other</summary>
+            <typeparam name="A">A == 1/B | A == B^-1</typeparam><typeparam name="B">B == 1/A | B == A^-1</typeparam>
+        </member>
+        <member name="P:NQualityOfLife.IInverse`2.Inverse">
+            <summary>1/A -> B</summary>
+        </member>
+        <member name="T:NQualityOfLife.IFloat">
+            <summary>Interface for types that are used for math</summary>
+        </member>
         <member name="P:NQualityOfLife.IFloat.Value">
-            <summary>The value of this type when converted to float</summary>
+            <summary>The value of this type when converted to <see cref="T:System.Single"/> || For example <see cref="T:NQualityOfLife.Percentage"/> of 100% will return 1f</summary>
+        </member>
+        <member name="M:NQualityOfLife.IFloat.EqualsExact(System.Single)">
+            <summary></summary><param name="other"></param><returns>True if the float values are exactly the same, to the bit level.</returns>
         </member>
         <member name="M:NQualityOfLife.IRatio.Chance">
             <summary></summary>
@@ -5607,7 +6538,7 @@
         </member>
         <member name="M:NQualityOfLife.IMath`1.Abs">
             <summary></summary>
-            <returns>The absolute (non negative) value</returns>
+            <returns>The absolute (non negative) value of <typeparamref name="T"/></returns>
         </member>
         <member name="M:NQualityOfLife.IMath`1.SmallerOf(`0)">
             <summary>Returns the smaller value</summary>
@@ -5632,6 +6563,14 @@
         <member name="M:NQualityOfLife.IMath`1.RoundToInt">
             <summary>Round to the closest int</summary>
             <returns></returns>
+        </member>
+        <member name="M:NQualityOfLife.IMath`1.ClampRatio(NQualityOfLife.Ratio,NQualityOfLife.Ratio)">
+            <summary>Clamp the value into a <see cref="T:NQualityOfLife.Ratio"/></summary><param name="min"></param><param name="max"></param>
+            <returns>a new <see cref="T:NQualityOfLife.Ratio"/> object</returns>
+        </member>
+        <member name="M:NQualityOfLife.IMath`1.ClampRatio">
+            <summary>Clamp the value into a <see cref="T:NQualityOfLife.Ratio"/></summary>
+            <returns>a new <see cref="T:NQualityOfLife.Ratio"/> object</returns>
         </member>
         <member name="M:NQualityOfLife.LineExtensions.RotateAroundA(NQualityOfLife.Line2D,NQualityOfLife.Degrees)">
             <summary></summary>
@@ -5682,6 +6621,12 @@
         </member>
         <member name="T:NQualityOfLife.HasQATester">
             <summary>This method has a QA tester to ensure functionality</summary>
+        </member>
+        <member name="T:NQualityOfLife.RequiresMod">
+            <summary>Indicates that the method or class requires some other mod to be running in order to work</summary>
+        </member>
+        <member name="P:NQualityOfLife.Physics.Universe.TotalMass">
+            <summary>The total mass contained in the universe</summary>
         </member>
         <member name="F:NQualityOfLife.XML.PatchOperationPathed.count">
             <summary>The variable where the patch specific count is stored. (optional)</summary>
